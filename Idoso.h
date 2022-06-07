@@ -1,3 +1,6 @@
+#ifndef IDOSO_H
+#define IDOSO_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -62,7 +65,7 @@ Cuidador BuscarCuidadorMaisProximo(Idoso idoso);
  * output: void
  * pré-condição : os parametros passados são validos
  */
-void AdicionaResgistro(Idoso idoso,double temperatura,Febre febre, int queda);
+void AdicionaResgistro(Idoso idoso,double temperatura,FebreEnum febre, int queda);
 
 /**
  * Retorna lista de Registros
@@ -73,3 +76,13 @@ void AdicionaResgistro(Idoso idoso,double temperatura,Febre febre, int queda);
  *                numero de registros.
  */
 Registro BuscarRegistros(Idoso idoso, int quantidade);
+
+/**
+ * Retorna nome do idoso
+ * inputs: idoso
+ * output: nome
+ * pré-condição : os parametros passados são validos
+ */
+char * RecuperaNomeIdoso(Idoso idoso);
+
+#endif
