@@ -7,4 +7,6 @@ typedef enum Febre{
     FebreAlta
 } FebreEnum;
 
+FebreEnum RetornaFebre(double temperatura);
+
 #endif

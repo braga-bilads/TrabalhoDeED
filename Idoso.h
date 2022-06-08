@@ -10,13 +10,21 @@
 
 typedef struct idoso * Idoso;
 
+/* 
+ * Aloca memoria para o idoso e o inicializa
+ * inputs: o nome do idoso
+ * output: o idoso criado
+ * pre-condicao: nenhuma
+ */
+Idoso CriarIdoso(char *nome);
+
 /**
  * Coloca um amigo na lista de amigos do idoso. 
  * inputs: idoso e o amigo
  * output: void
  * pré-condição: idoso e amigo existem 
  */
-void AdicionaAmigo(Idoso idoso, Idoso amigo);
+void AdicionarAmigo(Idoso idoso, Idoso amigo);
 
 /**
  * Retira um amigo da lista de amigos do idoso.
@@ -61,11 +69,11 @@ Cuidador BuscarCuidadorMaisProximo(Idoso idoso);
 
 /**
  * Adiciona um novo registro na lista de registros do idoso.
- * inputs: idoso, temperatura, febre, queda.
+ * inputs: idoso, registro.
  * output: void
  * pré-condição : os parametros passados são validos
  */
-void AdicionaResgistro(Idoso idoso,double temperatura,FebreEnum febre, int queda);
+void AdicionaResgistro(Idoso idoso, Registro registro);
 
 /**
  * Retorna lista de Registros
@@ -84,5 +92,29 @@ Registro BuscarRegistros(Idoso idoso, int quantidade);
  * pré-condição : os parametros passados são validos
  */
 char * RecuperaNomeIdoso(Idoso idoso);
+
+/* 
+ * Libera memoria alocada para o idoso
+ * inputs: o idoso
+ * output: nenhum
+ * pre-condicao: o idoso existe
+ */
+void DeletarIdoso(Idoso idoso);
+
+/* 
+ * Atualiza os dados do idoso
+ * inputs: o idoso
+ * output: nenhum
+ * pre-condicao: o idoso existe
+ */
+void AtualizarIdoso(Idoso idoso);
+
+/* 
+ * Verifica se o idoso esta vivo
+ * inputs: o idoso
+ * output: nenhum
+ * pre-condicao: o idoso existe
+ */
+int EhIdosoVivo(Idoso idoso);
 
 #endif
