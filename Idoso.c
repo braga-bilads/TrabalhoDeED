@@ -7,6 +7,7 @@
 #include "Registro.h"
 #include "Idoso.h"
 #include "Lista.h"
+#include "Localizador.h"
 
 static int __compararNomeIdoso(void *idoso, void *nome);
 
@@ -52,9 +53,19 @@ void RemoverAmigo(Idoso idoso, Idoso amigo){
     RemoverItemChave(amigo->amigos, &_compararNomeIdoso, idoso->nome);
 }
 
-Idoso BuscarAmigoMaisProximo(Idoso idoso);
+Idoso BuscarAmigoMaisProximo(Idoso idoso){
+    Localizador localIdoso;
+    localIdoso = RecuperaLocalizadorRegistro((Registro)RecuperaConteudoDaUltimaCelula(idoso->registros));
+    Localizador localAmigos;
+    double dist;
+    Idoso p;
+    
 
-void DesfazerAmizades(Idoso idoso);
+}
+
+void DesfazerAmizades(Idoso idoso){
+
+}
 
 void AdicionarCuidador(Idoso idoso, Cuidador cuidador){
     assert(idoso != NULL && cuidador != NULL);

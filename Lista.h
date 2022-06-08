@@ -52,4 +52,20 @@ void RemoverItemIndex(Lista lista, int index);
  */
 void DeletarLista(Lista lista, void (*Free)(void *item));
 
+/**
+ * Retorna conteudo da ultima celula da Lista
+ * inputs: a lista
+ * output: ponteiro para conteudo da celula
+ * pre-condição: lista valida e não vazia
+ */
+void * RecuperaConteudoDaUltimaCelula(Lista lista);
+
+/**
+ * Retorna conteudo da primeira celula da Lista
+ * inputs: a lista
+ * output: void pointer para conteudo da celula
+ * pre-condição: lista valida e não vazia
+ */
+void * RecuperaConteudoDaPrimeiraCelula(Lista lista);
+
 #endif

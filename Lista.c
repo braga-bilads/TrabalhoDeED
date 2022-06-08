@@ -2,10 +2,24 @@
 #include <stdlib.h>
 #include "Lista.h"
 #include <string.h>
+#include <assert.h>
 
 typedef struct celula Celula;
 
+/**
+ * Função para buscar celula por chave de comparação.
+ * inputs: lista, função de CompararChave e a chave. 
+ * outputs: ponteiro para celula
+ * pré-condição: lista é valida, função existe, chave é valida 
+ */
 static Celula* BuscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave);
+/**
+ * Função para buscar celula por index (posição na lista).
+ * inputs: lista e index.
+ * outputs: ponteiro para celula.
+ * pré-condição: lista é valida e index é valido.
+ */
+static Celula* BuscarCelulaIndex(Lista lista,int index);
 
 struct celula{
     void* conteudo; 
@@ -90,7 +104,7 @@ void RemoverItemIndex(Lista lista, int index){
     Celula* p;
     p = lista->prim;
     
-    for (int i = 0; i >= index && p ; i++)
+    for (int i = 0; i < index && p ; i++)
     {
         p = p->prox;
     }
@@ -144,6 +158,7 @@ void DeletarLista(Lista lista, void (*Free)(void *item)){
 }
 
 static Celula* BuscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+    assert(lista != NULL);
     Celula *aux = lista->prim;
 
     while(aux != NULL && CompararChave(aux->conteudo, chave) != 1){
@@ -152,3 +167,35 @@ static Celula* BuscarCelula(Lista lista, int (*CompararChave)(void *, void *), v
 
     return aux;
 }
+
+static Celula* BuscarCelulaIndex(Lista lista,int index){
+    Celula * p;
+    p = lista->prim;
+    
+    for (int i = 0; i < index && p; i++)
+    {
+        p = p->prox;
+    }
+
+    if(!p) return NULL;
+
+    return p;
+}
+
+void * RecuperaConteudoDaUltimaCelula(Lista lista){
+    assert(lista != NULL);
+    if(!lista->ult) 
+        return NULL;
+
+    return lista->ult->conteudo;
+}
+
+void * RecuperaConteudoDaPrimeiraCelula(Lista lista){
+    assert(lista != NULL);
+    if(!lista->prim) 
+        return NULL;
+
+    return lista->prim->conteudo;
+}
+
+

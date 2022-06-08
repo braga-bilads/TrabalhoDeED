@@ -1,6 +1,8 @@
 #ifndef REGISTRO_H
 #define REGISTRO_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "Localizador.h"
 #include "FebreEnum.h"
 
