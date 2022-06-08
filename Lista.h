@@ -42,7 +42,7 @@ Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *
  * output: nenhum
  * pre-condicao: a lista existe
  */
-void RemoverItemIndex(Lista lista, int index);
+Lista RemoverItemIndex(Lista lista, int index);
 
 /* 
  * Libera memoria alocada para a lista
@@ -67,5 +67,7 @@ void * RecuperaConteudoDaUltimaCelula(Lista lista);
  * pre-condição: lista valida e não vazia
  */
 void * RecuperaConteudoDaPrimeiraCelula(Lista lista);
+
+void ForEach(Lista lista, void **item);
 
 #endif

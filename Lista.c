@@ -100,7 +100,7 @@ Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *
     return lista;
 }
 
-void RemoverItemIndex(Lista lista, int index){
+Lista RemoverItemIndex(Lista lista, int index){
     Celula* p;
     p = lista->prim;
     
@@ -198,4 +198,20 @@ void * RecuperaConteudoDaPrimeiraCelula(Lista lista){
     return lista->prim->conteudo;
 }
 
+void ForEach(Lista lista, void **item){
+    static Celula *aux = NULL;
 
+    if(lista != NULL){
+        aux = lista->prim;
+    }
+    else{
+        aux = aux->prox;
+    }
+    
+    if(aux == NULL){
+        *item = NULL;
+    }
+    else{
+        *item = aux->conteudo;
+    }    
+}
