@@ -5,10 +5,7 @@
 
 typedef struct celula Celula;
 
-struct lista{
-    Celula* prim;
-    Celula* ult;
-};
+static Celula* BuscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 struct celula{
     void* conteudo; 
@@ -16,7 +13,10 @@ struct celula{
     Celula* ant;
 };
 
-static Celula* BuscarCelula(Lista lista, char *(*RetornarChave)(void *), char *chave);
+struct lista{
+    Celula* prim;
+    Celula* ult;
+};
 
 Lista CriarLista(){
     Lista nova = (Lista)malloc(sizeof(struct lista));
@@ -44,66 +44,46 @@ Lista AdicionarItem(Lista lista, void *item){
     return lista;
 }
 
-void* BuscarItem(Lista lista, char *(*RetornarChave)(void *), char *chave){
-    Celula* p;
-    p = lista->prim;
-
-    while(strcmp(RetornarChave((void*)p), chave)){
-        p = p->prox;
-    }
-
-    return p->conteudo;
+void *BuscarItem(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+    Celula *aux = BuscarCelula(lista, CompararChave, chave);
+    if(aux != NULL) return aux->conteudo;
+    return NULL;
 }
 
-static Celula* BuscarCelula(Lista lista, char *(*RetornarChave)(void *), char *chave){
-    Celula* p;
-    p = lista->prim;
+Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+    Celula *aux = BuscarCelula(lista, CompararChave, chave);
 
-    while(strcmp(RetornarChave((void*)p), chave)){
-        p = p->prox;
-    }
+    //lista vazia
+    if(aux == NULL) return lista;
 
-    return p;
-}
-
-Lista RemoverItemChave(Lista lista, char *(*RetornarChave)(void *), char *chave){
-    Celula* p;
-    
-    
-    p = BuscaCelula(RetornarChave,chave); 
-    //p == NULL vale se não tiver na lista ou for lista vazia    
-    if(!p){
-        return lista;
+    if(aux == lista->prim){
+        //unico da lista
+        if(aux == lista->ult){
+            free(aux);
+            lista->prim = NULL;
+            lista->ult = NULL;
+        }
+        //primeiro da lista
+        else{
+            aux->prox->ant = NULL;
+            lista->prim = aux->prox;
+            free(aux);
+        }
     }
-    
-    //Unico
-    if(lista->prim == p && p->prox == NULL){
-        lista->prim = NULL;
-        lista->ult = NULL;
-        free(p);
-        return lista;
+    //ultimo da lista
+    else if(aux == lista->ult){
+        aux->ant->prox = NULL;
+        lista->ult = aux->ant;
+        free(aux);
     }
-    //Primeiro
-    if(lista->prim == p){
-        lista->prim = p->prox;
-        p->prox->ant = NULL;
-        free(p);
-        return lista;
-    }
-    //Ultimo
-    if(lista->ult == p){
-        p->ant->prox = NULL;
-        lista->ult = p->ant;
-        free(p);
-        return lista;
-    }
+    // meio da lista
     else{
-        p->ant->prox = p->prox;
-        p->prox->ant = p->ant;
-        free(p);
-        return lista;
+        aux->ant->prox = aux->prox;
+        aux->prox->ant = aux->ant;
+        free(aux);
     }
-    
+
+    return lista;
 }
 
 void RemoverItemIndex(Lista lista, int index){
@@ -161,4 +141,14 @@ void DeletarLista(Lista lista, void (*Free)(void *item)){
         p = aux;
     }
     free(lista);
+}
+
+static Celula* BuscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+    Celula *aux = lista->prim;
+
+    while(aux != NULL && CompararChave(aux->conteudo, chave) != 1){
+        aux = aux->prox;
+    }
+
+    return aux;
 }

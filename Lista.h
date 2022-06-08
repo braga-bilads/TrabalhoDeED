@@ -14,27 +14,27 @@ Lista CriarLista();
 /* 
  * Adiciona um item a lista
  * inputs: a lista e o item a ser adicionado
- * output: nenhum
+ * output: a lista
  * pre-condicao: a lista e o item existem
  */
 Lista AdicionarItem(Lista lista, void *item);
 
 /* 
  * Busca um item na lista de acordo com sua chave
- * inputs: a lista, uma funcao que retorna a chave de acordo com o item, e a chave a ser comparada
+ * inputs: a lista, uma funcao que compara a chave de acordo com o item, e a chave a ser comparada
  * output: o item
  * pre-condicao: a lista, a funcao e a chave existem
  */
-void *BuscarItem(Lista lista, char *(*RetornarChave)(void *), char *chave);
+void *BuscarItem(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 
 /* 
  * Remove um item da lista de acordo com sua chave
- * inputs: a lista, uma funcao que retorna a chave de acordo com o item, e a chave a ser comparada
- * output: nenhum
+ * inputs: a lista, uma funcao que compara a chave de acordo com o item, e a chave a ser comparada
+ * output: a Lista
  * pre-condicao: a lista, a funcao e a chave existem
  */
-Lista RemoverItemChave(Lista lista, char *(*RetornarChave)(void *), char *chave);
+Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 /* 
  * Remove um item da lista de acordo com seu index
