@@ -58,7 +58,7 @@ void DeletarLista(Lista lista, void (*Free)(void *item));
  * output: ponteiro para conteudo da celula
  * pre-condição: lista valida e não vazia
  */
-void * RecuperaConteudoDaUltimaCelula(Lista lista);
+void *RecuperaConteudoDaUltimaCelula(Lista lista);
 
 /**
  * Retorna conteudo da primeira celula da Lista
@@ -66,8 +66,16 @@ void * RecuperaConteudoDaUltimaCelula(Lista lista);
  * output: void pointer para conteudo da celula
  * pre-condição: lista valida e não vazia
  */
-void * RecuperaConteudoDaPrimeiraCelula(Lista lista);
+void *RecuperaConteudoDaPrimeiraCelula(Lista lista);
 
+/* 
+ * Percorre a lista
+ * inputs: a lista e um ponteiro para ponteiro para item
+ * output: nenhum
+ * pre-condicao: se lista != de NULL, item e o primeiro da lista,
+ *               se lista == NULL, item e o proximo da lista, de acordo
+ *               com a primeira lista passada como parametro
+ */
 void ForEach(Lista lista, void **item);
 
 #endif

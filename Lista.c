@@ -204,14 +204,14 @@ void ForEach(Lista lista, void **item){
     if(lista != NULL){
         aux = lista->prim;
     }
-    else{
+    else if(aux != NULL){
         aux = aux->prox;
     }
-    
+
     if(aux == NULL){
         *item = NULL;
     }
     else{
         *item = aux->conteudo;
-    }    
+    }
 }
