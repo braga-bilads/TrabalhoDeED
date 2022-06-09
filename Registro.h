@@ -10,11 +10,11 @@ typedef struct registro* Registro;
 
 /* 
  * Aloca memoria para o registro e o inicializa
- * inputs: temperatura, febre, queda e localizador
+ * inputs: nenhum
  * output: o registro criado
- * pre-condicao: febre tem valor valido e localizador existe
+ * pre-condicao: nenhuma
  */
-Registro CriarRegistro(double temperatura, FebreEnum febre, int queda, Localizador localizador);
+Registro CriarRegistro();
 
 /* 
  * Retorna a temperatura registrada
@@ -49,12 +49,44 @@ int RecuperaQuedaRegistro(Registro registro);
 Localizador RecuperaLocalizadorRegistro(Registro registro);
 
 /* 
+ * Retorna a contagem de febres baixas registrada
+ * inputs: o registro
+ * output: a contagem de febres baixas 
+ * pre-condicao: o registro existe
+ */
+int RecuperaContadorFebreBaixa(Registro registro);
+
+/* 
+ * Retorna o atributo ehVivo registrado
+ * inputs: o registro
+ * output: o atributo ehVivo 
+ * pre-condicao: o registro existe
+ */
+int RecuperaEhVivo(Registro registro);
+
+/* 
  * Libera memoria alocada para o registro
  * inputs: o registro
  * output: nenhum
  * pre-condicao: o registro existe
  */
 void DeletarRegistro(Registro registro);
+
+/* 
+ * Atualiza os dados do registro
+ * inputs: o registro, temperatura, febre, queda, localizador e ehVivo
+ * output: nenhum
+ * pre-condicao: o registro existe
+ */
+void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador, int ehVivo);
+
+/* 
+ * Reseta os dados do registro
+ * inputs: o registro
+ * output: o registro resetado
+ * pre-condicao: o registro existe
+ */
+Registro ResetarRegistro(Registro registro);
 
 
 

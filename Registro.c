@@ -8,18 +8,20 @@ struct registro{
     FebreEnum febre;
     int queda;
     Localizador localizador;
+    int contadorFebreBaixa;
+    int ehVivo;
 };
 
-Registro CriarRegistro(double temperatura, FebreEnum febre, int queda, Localizador localizador){
-    assert(localizador != NULL);
-
+Registro CriarRegistro(){
     Registro registro = (Registro) malloc(sizeof(struct registro));
     assert(registro != NULL);
 
-    registro->temperatura = temperatura;
-    registro->febre = febre;
-    registro->queda = queda;
-    registro->localizador = localizador;
+    registro->temperatura = 0.0;
+    registro->febre = SemFebre;
+    registro->queda = 0;
+    registro->localizador = CriarLocalizador(0, 0);
+    registro->contadorFebreBaixa = 0;
+    registro->ehVivo = 1;
 
     return registro;
 }
@@ -48,6 +50,18 @@ Localizador RecuperaLocalizadorRegistro(Registro registro){
     return registro->localizador;
 }
 
+int RecuperaContadorFebreBaixa(Registro registro){
+    assert(registro != NULL);
+
+    return registro->contadorFebreBaixa;
+}
+
+int RecuperaEhVivo(Registro registro){
+    assert(registro != NULL);
+
+    return registro->ehVivo;
+}
+
 void DeletarRegistro(Registro registro){
     assert(registro != NULL);
 
@@ -55,6 +69,29 @@ void DeletarRegistro(Registro registro){
     free(registro);
 }
 
+void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador, int ehVivo){
+    assert(registro != NULL && localizador != NULL);
+
+    registro->temperatura = temperatura;
+    registro->febre = febre;
+    registro->queda = queda;
+
+    DeletarLocalizador(registro->localizador);
+    registro->localizador = localizador;
+
+    if(febre == FebreBaixa){
+        registro->contadorFebreBaixa++;
+    }
+
+    registro->ehVivo = ehVivo;
+}
+
+Registro ResetarRegistro(Registro registro){
+    assert(registro != NULL);
+
+    DeletarRegistro(registro);
+    return CriarRegistro();
+}
 
 
 // DEBUG
@@ -62,8 +99,9 @@ char *RegistroToString(Registro registro){
     assert(registro != NULL);
 
     static char buffer[100];
-    sprintf(buffer, "temperatura:%.2lf,febre:%d,queda:%d,localizador:{%s}",
+    sprintf(buffer, "temperatura:%.2lf,febre:%d,queda:%d,localizador:{%s},contadorFebreBaixa:%d,ehVivo:%d",
         registro->temperatura, registro->febre,
-        registro->queda, LocalizadorToString(registro->localizador));
+        registro->queda, LocalizadorToString(registro->localizador),
+        registro->contadorFebreBaixa, registro->ehVivo);
     return buffer;
 }
