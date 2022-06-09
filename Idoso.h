@@ -68,14 +68,6 @@ void AdicionarCuidador(Idoso idoso, Cuidador cuidador);
 Cuidador BuscarCuidadorMaisProximo(Idoso idoso);
 
 /**
- * Adiciona um novo registro na lista de registros do idoso.
- * inputs: idoso, registro.
- * output: void
- * pré-condição : os parametros passados são validos
- */
-void AdicionaResgistro(Idoso idoso, Registro registro);
-
-/**
  * Retorna lista de Registros
  * inputs: idoso e quantidade
  * output: lista de registros
