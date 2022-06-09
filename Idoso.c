@@ -9,7 +9,7 @@
 #include "Lista.h"
 #include "Localizador.h"
 
-static int __compararNomeIdoso(void *idoso, void *nome);
+static int _compararNomeIdoso(void *idoso, void *nome);
 
 struct idoso
 {
@@ -63,10 +63,10 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
     double menordist =0.0;
     Idoso p;
    
-    ForEach(idoso->amigos,&p);
+    ForEach(idoso->amigos,(void**)&p);
     Idoso amigoMaisProximo  = p;
     
-    for (ForEach(idoso->amigos,&p); p ;ForEach(NULL,&p))
+    for ( ; p ;ForEach(NULL,(void**)&p))
     {
         localAmigo = RecuperaLocalizadorRegistro(p->registro);
         dist = CalcularDistancia(localIdoso, localAmigo);
@@ -100,10 +100,10 @@ Cuidador BuscarCuidadorMaisProximo(Idoso idoso){
     double menordist =0.0;
     Cuidador p;
    
-    ForEach(idoso->cuidadores,&p);
+    ForEach(idoso->cuidadores,(void**)&p);
     Cuidador cuidadorMaisProximo  = p;
     
-    for ( ; p ;ForEach(NULL,&p))
+    for ( ; p ;ForEach(NULL,(void**)&p))
     {
         localCuidador = RecuperaLocalizadorCuidador(p);
         dist = CalcularDistancia(localIdoso, localCuidador);
@@ -157,7 +157,7 @@ void AtualizarIdoso(Idoso idoso){
     sscanf(string, "%lf;%d;%d;%d", &temperatura, &latitude, &longitude, &queda);
     free(string);
 
-    FebreEnum febre = RetornaFebre(temperatura);
+    FebreEnum febre = RetornarFebre(temperatura);
     Localizador localizador = CriarLocalizador(latitude, longitude);
 
     AtualizarRegistro(idoso->registro,temperatura, febre, queda, localizador,1);
