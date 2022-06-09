@@ -50,13 +50,13 @@ Localizador RecuperaLocalizadorRegistro(Registro registro){
     return registro->localizador;
 }
 
-int RecuperaContadorFebreBaixa(Registro registro){
+int RecuperaContadorFebreBaixaRegistro(Registro registro){
     assert(registro != NULL);
 
     return registro->contadorFebreBaixa;
 }
 
-int RecuperaEhVivo(Registro registro){
+int RecuperaEhVivoRegistro(Registro registro){
     assert(registro != NULL);
 
     return registro->ehVivo;

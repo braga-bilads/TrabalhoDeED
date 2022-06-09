@@ -54,7 +54,7 @@ Localizador RecuperaLocalizadorRegistro(Registro registro);
  * output: a contagem de febres baixas 
  * pre-condicao: o registro existe
  */
-int RecuperaContadorFebreBaixa(Registro registro);
+int RecuperaContadorFebreBaixaRegistro(Registro registro);
 
 /* 
  * Retorna o atributo ehVivo registrado
@@ -62,7 +62,7 @@ int RecuperaContadorFebreBaixa(Registro registro);
  * output: o atributo ehVivo 
  * pre-condicao: o registro existe
  */
-int RecuperaEhVivo(Registro registro);
+int RecuperaEhVivoRegistro(Registro registro);
 
 /* 
  * Libera memoria alocada para o registro
