@@ -8,12 +8,26 @@
 #include "Idoso.h"
 #include "Lista.h"
 #include "Localizador.h"
+#include "StreamReader.h"
+#include "StreamWriter.h"
 #include "EdCare.h"
+
+struct edcare
+{
+    Lista idosos;
+    Lista cuidadores;
+    int numerodeleituras;
+};
+
 
 int main(int argc, char const *argv[])
 {
-    int numeroDeLeituras = RetornaNumeroDeLeituras(argc,argv);
+    EdCare Sistema_EdCare = CriaEdCare(RetornaNumeroDeLeituras(argc,argv)); 
     
+    StreamReader apoio = CriarStreamReader("./Entrada/apoio.txt");
+    StreamReader cuidadores = CriarStreamReader("./Entrada/cuidadores.txt");
+    CriaVinculosdeApoio(apoio,Sistema_EdCare);
+    CriaVinculosdeCuidadores(cuidadores,Sistema_EdCare);
 
     return 0;
 }
@@ -31,3 +45,19 @@ int RetornaNumeroDeLeituras(int argc, const char ** argv){
     }
     return numeroDeLeituras;
 }
+
+EdCare CriaEdCare(int numeroLeituras){
+    EdCare nova = (EdCare)malloc(sizeof(struct edcare));
+    
+    nova->numerodeleituras = numeroLeituras;
+    nova->cuidadores = CriarLista();
+    nova->idosos = CriarLista();
+
+    return nova;
+}
+void CriaVinculosdeApoio(StreamReader apoio,EdCare Sistema_EdCare){
+    char* linha = ReadLine(apoio);
+    
+}
+
+void CriaVinculosdeCuidadores(StreamReader cuidadores,EdCare Sistema_EdCare);
