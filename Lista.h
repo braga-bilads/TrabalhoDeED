@@ -27,6 +27,8 @@ Lista AdicionarItem(Lista lista, void *item);
  */
 void *BuscarItem(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
+void *BuscarItemIndex(Lista lista, int index);
+
 
 /* 
  * Remove um item da lista de acordo com sua chave
@@ -42,7 +44,7 @@ Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *
  * output: nenhum
  * pre-condicao: a lista existe
  */
-Lista RemoverItemIndex(Lista lista, int index);
+void *RemoverItemIndex(Lista lista, int index);
 
 /* 
  * Libera memoria alocada para a lista

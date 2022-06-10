@@ -38,7 +38,7 @@ char *ReadLine(StreamReader sr){
     assert(sr->arquivo != NULL);
 
     char *string = NULL;
-    sr->endOfStream = fscanf(sr->arquivo, "%m[^\n]%*c", &string);
+    sr->endOfStream = fscanf(sr->arquivo, " %m[^\n]%*c", &string);
 
     return string;
 }

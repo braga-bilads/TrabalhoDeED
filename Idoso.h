@@ -107,6 +107,8 @@ void AtualizarIdoso(Idoso idoso);
  */
 int EhIdosoVivo(Idoso idoso);
 
+int CompararNomeIdoso(void *idoso, void *nome);
+
 
 
 // DEBUG

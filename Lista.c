@@ -64,6 +64,20 @@ void *BuscarItem(Lista lista, int (*CompararChave)(void *, void *), void *chave)
     return NULL;
 }
 
+void *BuscarItemIndex(Lista lista, int index){
+    Celula * p;
+    p = lista->prim;
+    
+    for (int i = 0; i < index && p; i++)
+    {
+        p = p->prox;
+    }
+
+    if(!p) return NULL;
+
+    return p->conteudo;
+}
+
 Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
     Celula *aux = BuscarCelula(lista, CompararChave, chave);
 
@@ -100,7 +114,7 @@ Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *
     return lista;
 }
 
-Lista RemoverItemIndex(Lista lista, int index){
+void *RemoverItemIndex(Lista lista, int index){
     Celula* p;
     p = lista->prim;
     
@@ -112,34 +126,38 @@ Lista RemoverItemIndex(Lista lista, int index){
     
     //p == NULL vale se não tiver na lista ou for lista vazia    
     if(!p){
-        return lista;
+        return NULL;
     }
     //Unico
     if(lista->prim == p && p->prox == NULL){
         lista->prim = NULL;
         lista->ult = NULL;
+        void *conteudo = p->conteudo;
         free(p);
-        return lista;
+        return conteudo;
     }
     //Primeiro
     if(index == 0){
         lista->prim = p->prox;
         p->prox->ant = NULL;
+        void *conteudo = p->conteudo;
         free(p);
-        return lista;
+        return conteudo;
     }
     //Ultimo
     if(lista->ult == p){
         p->ant->prox = NULL;
         lista->ult = p->ant;
+        void *conteudo = p->conteudo;
         free(p);
-        return lista;
+        return conteudo;
     }
     else{
         p->ant->prox = p->prox;
         p->prox->ant = p->ant;
+        void *conteudo = p->conteudo;
         free(p);
-        return lista;
+        return conteudo;
     }
 }
 

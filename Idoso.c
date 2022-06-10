@@ -1,8 +1,6 @@
 #include "Idoso.h"
 #include "Localizador.h"
 
-static int _compararNomeIdoso(void *idoso, void *nome);
-
 struct idoso
 {
     char* nome;
@@ -60,7 +58,7 @@ Registro RecuperaRegistro(Idoso idoso){
 void DeletarIdoso(Idoso idoso){
     assert(idoso != NULL);
 
-    DesfazerAmizades(idoso);
+    //DesfazerAmizades(idoso);
 
     free(idoso->nome);
     DeletarLista(idoso->amigos, NULL);
@@ -81,8 +79,8 @@ void AdicionarAmigo(Idoso idoso, Idoso amigo){
 void RemoverAmigo(Idoso idoso, Idoso amigo){
     assert(idoso != NULL && amigo != NULL);
 
-    RemoverItemChave(idoso->amigos, &_compararNomeIdoso, amigo->nome);
-    RemoverItemChave(amigo->amigos, &_compararNomeIdoso, idoso->nome);
+    RemoverItemChave(idoso->amigos, &CompararNomeIdoso, amigo->nome);
+    RemoverItemChave(amigo->amigos, &CompararNomeIdoso, idoso->nome);
 }
 
 Idoso BuscarAmigoMaisProximo(Idoso idoso){
@@ -102,7 +100,7 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
     {
         localAmigo = RecuperaLocalizadorRegistro( ((Idoso) amigo)->registro );
         dist = CalcularDistancia(localIdoso, localAmigo);
-        if (dist < menordist)
+        if (dist < menordist && ((Idoso) amigo)->vivo)
         {
             menordist = dist;
             amigoMaisProximo = amigo;
@@ -113,10 +111,7 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
 }
 
 void DesfazerAmizades(Idoso idoso){
-    void *amigo = NULL;
-    for(ForEach(idoso->amigos, &amigo); amigo != NULL; ForEach(NULL, &amigo)){
-        RemoverAmigo(idoso, (Idoso) amigo);
-    }
+    
 }
 
 void AdicionarCuidador(Idoso idoso, Cuidador cuidador){
@@ -179,7 +174,7 @@ int EhIdosoVivo(Idoso idoso){
     return idoso->vivo;
 }
 
-static int _compararNomeIdoso(void *idoso, void *nome){
+int CompararNomeIdoso(void *idoso, void *nome){
     Idoso _idoso = idoso;
     char *_nome = nome;
 
