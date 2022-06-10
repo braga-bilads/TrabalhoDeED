@@ -56,8 +56,68 @@ EdCare CriaEdCare(int numeroLeituras){
     return nova;
 }
 void CriaVinculosdeApoio(StreamReader apoio,EdCare Sistema_EdCare){
+    assert(Sistema_EdCare);
+    assert(apoio);
+
     char* linha = ReadLine(apoio);
+    char* nome;
+
+    //colocando Idosos no sistema 
+    while (sscanf(linha,"%m[^;]",&nome)){ 
+        AdicionarItem(Sistema_EdCare->idosos,CriarIdoso(nome));
+        free(nome);
+        nome = NULL;
+    }
+    char* nome1;
+    char* nome2:
+    Idoso i1;
+    Idoso i2;
+    //colocando idosos como amigos
+    while (RecuperaEndOfStream(apoio)){
+        linha = ReadLine(apoio);
+        sscanf(linha;"%m[^;]%m",&nome1,&nome2);
+        i1 = RetornaIdosoPeloNome(Sistema_EdCare->idosos,nome1);
+        i2 = RetornaIdosoPeloNome(Sistema_EdCare->idosos,nome2);
+        AdicionarAmigo(i1,i2);
+        free(nome1);
+        free(nome2);
+    }
     
+    if(nome1)
+        free(nome1);
+    if(nome2)
+        free(nome2);
+    if(nome)
+        free(nome);
+    if(linha)
+        free(linha);
 }
 
-void CriaVinculosdeCuidadores(StreamReader cuidadores,EdCare Sistema_EdCare);
+void CriaVinculosdeCuidadores(StreamReader cuidadores,EdCare Sistema_EdCare){
+    assert(Sistema_EdCare);
+    assert(cuidadores);
+
+    char* linha = ReadLine(cuidadores);
+    char* nome;
+
+    //colocando cuidadore no sistema 
+    while (sscanf(linha,"%m[^;]",&nome)){ 
+        AdicionarItem(Sistema_EdCare->cuidadores,CriarCuidador(nome));
+        free(nome);
+        nome = NULL;
+    }
+    char* nome1;
+    char* nome2:
+    Cuidador c1;
+    Cuidador c2;
+  
+    
+    if(nome1)
+        free(nome1);
+    if(nome2)
+        free(nome2);
+    if(nome)
+        free(nome);
+    if(linha)
+        free(linha);
+}
