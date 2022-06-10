@@ -1,12 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-#include "Cuidador.h"
-#include "FebreEnum.h"
-#include "Registro.h"
 #include "Idoso.h"
-#include "Lista.h"
 #include "Localizador.h"
 
 static int _compararNomeIdoso(void *idoso, void *nome);
@@ -22,6 +14,8 @@ struct idoso
 };
 
 Idoso CriarIdoso(char *nome){
+    assert(nome != NULL);
+
     Idoso idoso = (Idoso) malloc(sizeof(struct idoso));
     assert(idoso != NULL);
 
@@ -39,6 +33,44 @@ Idoso CriarIdoso(char *nome){
     return idoso;
 }
 
+char *RecuperaNomeIdoso(Idoso idoso){
+    assert(idoso != NULL);
+
+    return idoso->nome;
+}
+
+Lista RecuperaAmigosIdoso(Idoso idoso){
+    assert(idoso != NULL);
+
+    return idoso->amigos;
+}
+
+Lista RecuperaCuidadoresIdoso(Idoso idoso){
+    assert(idoso != NULL);
+
+    return idoso->cuidadores;
+}
+
+Registro RecuperaRegistro(Idoso idoso){
+    assert(idoso != NULL);
+
+    return idoso->registro;
+}
+
+void DeletarIdoso(Idoso idoso){
+    assert(idoso != NULL);
+
+    DesfazerAmizades(idoso);
+
+    free(idoso->nome);
+    DeletarLista(idoso->amigos, NULL);
+    DeletarLista(idoso->cuidadores, NULL);
+    DeletarRegistro(idoso->registro);
+    DeletarStreamReader(idoso->sr);
+
+    free(idoso);
+}
+
 void AdicionarAmigo(Idoso idoso, Idoso amigo){
     assert(idoso != NULL && amigo != NULL);
 
@@ -54,26 +86,26 @@ void RemoverAmigo(Idoso idoso, Idoso amigo){
 }
 
 Idoso BuscarAmigoMaisProximo(Idoso idoso){
-    assert(idoso);
+    assert(idoso != NULL);
 
-    Localizador localIdoso;
-    localIdoso = RecuperaLocalizadorRegistro(idoso->registro);
-    Localizador localAmigo;
-    double dist = 0.1;
-    double menordist =0.0;
-    Idoso p;
-   
-    ForEach(idoso->amigos,(void**)&p);
-    Idoso amigoMaisProximo  = p;
+    Localizador localIdoso = RecuperaLocalizadorRegistro(idoso->registro);    
     
-    for ( ; p ;ForEach(NULL,(void**)&p))
+    void *amigo = NULL;
+    Localizador localAmigo = NULL;
+    double dist = 0.0;
+   
+    ForEach(idoso->amigos, &amigo);
+    Idoso amigoMaisProximo = amigo;
+    double menordist = CalcularDistancia(localIdoso, localAmigo);
+
+    for(ForEach(NULL, &amigo) ; amigo != NULL ; ForEach(NULL, &amigo))
     {
-        localAmigo = RecuperaLocalizadorRegistro(p->registro);
+        localAmigo = RecuperaLocalizadorRegistro( ((Idoso) amigo)->registro );
         dist = CalcularDistancia(localIdoso, localAmigo);
-        if (dist<menordist)
+        if (dist < menordist)
         {
             menordist = dist;
-            amigoMaisProximo = p;
+            amigoMaisProximo = amigo;
         }
     }    
     
@@ -81,7 +113,10 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
 }
 
 void DesfazerAmizades(Idoso idoso){
-
+    void *amigo = NULL;
+    for(ForEach(idoso->amigos, &amigo); amigo != NULL; ForEach(NULL, &amigo)){
+        RemoverAmigo(idoso, (Idoso) amigo);
+    }
 }
 
 void AdicionarCuidador(Idoso idoso, Cuidador cuidador){
@@ -91,53 +126,30 @@ void AdicionarCuidador(Idoso idoso, Cuidador cuidador){
 }
 
 Cuidador BuscarCuidadorMaisProximo(Idoso idoso){
-    assert(idoso);
+    assert(idoso != NULL);
 
-    Localizador localIdoso;
-    localIdoso = RecuperaLocalizadorRegistro(idoso->registro);
-    Localizador localCuidador;
-    double dist = 0.1;
-    double menordist =0.0;
-    Cuidador p;
+    Localizador localIdoso = RecuperaLocalizadorRegistro(idoso->registro);
+
+    void *cuidador = NULL;
+    Localizador localCuidador = NULL;
+    double dist = 0.0;    
    
-    ForEach(idoso->cuidadores,(void**)&p);
-    Cuidador cuidadorMaisProximo  = p;
+    ForEach(idoso->cuidadores, &cuidador);
+    Cuidador cuidadorMaisProximo = cuidador;
+    double menordist = CalcularDistancia(localIdoso, localCuidador);
     
-    for ( ; p ;ForEach(NULL,(void**)&p))
+    for(ForEach(NULL, &cuidador) ; cuidador != NULL ; ForEach(NULL, &cuidador))
     {
-        localCuidador = RecuperaLocalizadorCuidador(p);
+        localCuidador = RecuperaLocalizadorCuidador( (Cuidador) cuidador );
         dist = CalcularDistancia(localIdoso, localCuidador);
-        if (dist<menordist)
+        if (dist < menordist)
         {
             menordist = dist;
-            cuidadorMaisProximo = p;
+            cuidadorMaisProximo = cuidador;
         }
     }    
     
     return cuidadorMaisProximo;
-}
-
-Registro RetornaRegistro(Idoso idoso){
-    assert(idoso);
-    return idoso->registro;
-}
-
-char * RecuperaNomeIdoso(Idoso idoso){
-    return idoso->nome;
-}
-
-void DeletarIdoso(Idoso idoso){
-    assert(idoso != NULL);
-
-    DesfazerAmizades(idoso);
-
-    free(idoso->nome);
-    DeletarLista(idoso->amigos, NULL);
-    DeletarLista(idoso->cuidadores, NULL);
-    DeletarLocalizador(RecuperaLocalizadorRegistro(idoso->registro));
-    DeletarStreamReader(idoso->sr);
-
-    free(idoso);
 }
 
 void AtualizarIdoso(Idoso idoso){
@@ -160,7 +172,7 @@ void AtualizarIdoso(Idoso idoso){
     FebreEnum febre = RetornarFebre(temperatura);
     Localizador localizador = CriarLocalizador(latitude, longitude);
 
-    AtualizarRegistro(idoso->registro,temperatura, febre, queda, localizador,1);
+    AtualizarRegistro(idoso->registro,temperatura, febre, queda, localizador);
 }
 
 int EhIdosoVivo(Idoso idoso){
@@ -171,5 +183,19 @@ static int _compararNomeIdoso(void *idoso, void *nome){
     Idoso _idoso = idoso;
     char *_nome = nome;
 
-    return strcmp(_idoso->nome, _nome) == 0 ? 1 : 0;
+    return strcmp(_idoso->nome, _nome) == 0;
+}
+
+
+
+// DEBUG
+char *IdosoToString(Idoso idoso){
+    assert(idoso != NULL);
+
+    char buffer[1000];
+    char *registroToString = RegistroToString(idoso->registro);
+    sprintf(buffer, "Nome:%s,Registro{%s},Vivo:%d", idoso->nome, registroToString, idoso->vivo);
+    free(registroToString);
+
+    return strdup(buffer);
 }
