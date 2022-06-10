@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "Registro.h"
+
 struct registro{
     double temperatura;
     FebreEnum febre;
@@ -84,6 +85,7 @@ Registro ResetarRegistro(Registro registro){
 
 
 // DEBUG
+#include <string.h>
 char *RegistroToString(Registro registro){
     assert(registro != NULL);
 
