@@ -57,14 +57,6 @@ Localizador RecuperaLocalizadorRegistro(Registro registro);
 int RecuperaContadorFebreBaixaRegistro(Registro registro);
 
 /* 
- * Retorna o atributo ehVivo registrado
- * inputs: o registro
- * output: o atributo ehVivo 
- * pre-condicao: o registro existe
- */
-int RecuperaEhVivoRegistro(Registro registro);
-
-/* 
  * Libera memoria alocada para o registro
  * inputs: o registro
  * output: nenhum
@@ -78,7 +70,7 @@ void DeletarRegistro(Registro registro);
  * output: nenhum
  * pre-condicao: o registro existe
  */
-void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador, int ehVivo);
+void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador);
 
 /* 
  * Reseta os dados do registro
