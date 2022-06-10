@@ -3,12 +3,14 @@
 #include "StreamReader.h"
 #include "StreamWriter.h"
 
-typedef struct edcare * EdCare;
+typedef struct edcare* EdCare;
 
-int RetornaNumeroDeLeituras(int argc,const char ** argv);
+EdCare CriarEdCare();
 
-EdCare CriaEdCare(int numeroLeituras);
+void CriaVinculosdeApoio(EdCare Sistema_EdCare);
 
-void CriaVinculosdeApoio(StreamReader apoio,EdCare Sistema_EdCare);
+void CriaVinculosdeCuidadores(EdCare Sistema_EdCare);
 
-void CriaVinculosdeCuidadores(StreamReader cuidadores,EdCare Sistema_EdCare);
+void AtualizarEstruturas(EdCare Sistema_EdCare);
+
+void ProcessarInformacoes(EdCare Sistema_EdCare);

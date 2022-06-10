@@ -12,112 +12,133 @@
 #include "StreamWriter.h"
 #include "EdCare.h"
 
+static void AtualizarIdosos(EdCare Sistema_EdCare);
+
+static void AtualizarCuidadores(EdCare Sistema_EdCare);
+
 struct edcare
 {
     Lista idosos;
     Lista cuidadores;
-    int numerodeleituras;
 };
 
+EdCare CriarEdCare(){
+    EdCare Sistema_EdCare = (EdCare)malloc(sizeof(struct edcare));
+    assert(Sistema_EdCare != NULL);
 
-int main(int argc, char const *argv[])
-{
-    EdCare Sistema_EdCare = CriaEdCare(RetornaNumeroDeLeituras(argc,argv)); 
-    
-    StreamReader apoio = CriarStreamReader("./Entrada/apoio.txt");
-    StreamReader cuidadores = CriarStreamReader("./Entrada/cuidadores.txt");
-    CriaVinculosdeApoio(apoio,Sistema_EdCare);
-    CriaVinculosdeCuidadores(cuidadores,Sistema_EdCare);
+    Sistema_EdCare->idosos = CriarLista();
+    Sistema_EdCare->cuidadores = CriarLista();    
 
-    return 0;
+    return Sistema_EdCare;
 }
+void CriaVinculosdeApoio(EdCare Sistema_EdCare){
+    assert(Sistema_EdCare != NULL);
 
-int RetornaNumeroDeLeituras(int argc, const char ** argv){
-    if(!argc){
-        printf("ERRO: numero de leituras deve ser informado\n");
-        return -1;
-    }
-    int numeroDeLeituras;
-
-    if(sscanf(argv[1],"%d",&numeroDeLeituras) != 1){
-        printf("ERRO: numero de leituras informado é invalido\nExemplo de Sintaxe: ./EdCare 10");
-        return -1;
-    }
-    return numeroDeLeituras;
-}
-
-EdCare CriaEdCare(int numeroLeituras){
-    EdCare nova = (EdCare)malloc(sizeof(struct edcare));
-    
-    nova->numerodeleituras = numeroLeituras;
-    nova->cuidadores = CriarLista();
-    nova->idosos = CriarLista();
-
-    return nova;
-}
-void CriaVinculosdeApoio(StreamReader apoio,EdCare Sistema_EdCare){
-    assert(Sistema_EdCare);
-    assert(apoio);
-
-    char* linha = ReadLine(apoio);
-    char* nome;
+    StreamReader sr = CriarStreamReader("apoio.txt");
+    char* linha = ReadLine(sr);
 
     //colocando Idosos no sistema 
-    while (sscanf(linha,"%m[^;]",&nome)){ 
-        AdicionarItem(Sistema_EdCare->idosos,CriarIdoso(nome));
-        free(nome);
-        nome = NULL;
+    char* nome = strtok(linha, ";");
+    while(nome != NULL){
+        AdicionarItem(Sistema_EdCare->idosos, CriarIdoso(nome));
+        nome = strtok(linha, ";");
     }
-    char* nome1;
-    char* nome2:
-    Idoso i1;
-    Idoso i2;
-    //colocando idosos como amigos
-    while (RecuperaEndOfStream(apoio)){
-        linha = ReadLine(apoio);
-        sscanf(linha;"%m[^;]%m",&nome1,&nome2);
-        i1 = RetornaIdosoPeloNome(Sistema_EdCare->idosos,nome1);
-        i2 = RetornaIdosoPeloNome(Sistema_EdCare->idosos,nome2);
-        AdicionarAmigo(i1,i2);
-        free(nome1);
-        free(nome2);
-    }
+    free(linha);
+
+    Idoso idoso = NULL;
+    char* nomeIdoso = NULL;
+
+    Idoso amigo = NULL;
+    char* nomeAmigo = NULL;
     
-    if(nome1)
-        free(nome1);
-    if(nome2)
-        free(nome2);
-    if(nome)
-        free(nome);
-    if(linha)
+    //colocando idosos como amigos
+    linha = ReadLine(sr);
+    while(RecuperaEndOfStream(sr) != EOF){
+        sscanf(linha, " %m[^;];%ms", &nomeIdoso, &nomeAmigo);
+
+        idoso = BuscarItem(Sistema_EdCare->idosos, &CompararNomeIdoso, nomeIdoso);
+        amigo = BuscarItem(Sistema_EdCare->idosos, &CompararNomeIdoso, nomeAmigo);
+        AdicionarAmigo(idoso, amigo);
+
         free(linha);
+        linha = ReadLine(sr);
+    }
+
+    DeletarStreamReader(sr);
 }
 
-void CriaVinculosdeCuidadores(StreamReader cuidadores,EdCare Sistema_EdCare){
-    assert(Sistema_EdCare);
-    assert(cuidadores);
+void CriaVinculosdeCuidadores(EdCare Sistema_EdCare){
+    assert(Sistema_EdCare != NULL);
 
-    char* linha = ReadLine(cuidadores);
-    char* nome;
+    StreamReader sr = CriarStreamReader("cuidadores.txt");
+    char* linha = ReadLine(sr);
 
     //colocando cuidadore no sistema 
-    while (sscanf(linha,"%m[^;]",&nome)){ 
-        AdicionarItem(Sistema_EdCare->cuidadores,CriarCuidador(nome));
-        free(nome);
-        nome = NULL;
+    char* nome = strtok(linha, ";");
+    while(nome != NULL){
+        AdicionarItem(Sistema_EdCare->cuidadores, CriarCuidador(nome));
+        nome = strtok(linha, ";");
     }
-    char* nome1;
-    char* nome2:
-    Cuidador c1;
-    Cuidador c2;
-  
-    
-    if(nome1)
-        free(nome1);
-    if(nome2)
-        free(nome2);
-    if(nome)
-        free(nome);
-    if(linha)
+    free(linha);
+
+    Idoso idoso = NULL;
+    char* nomeIdoso = NULL;
+
+    Cuidador cuidador = NULL;
+    char* nomeCuidador = NULL;
+
+    //colocando idosos como amigos
+    linha = ReadLine(sr);
+    while(RecuperaEndOfStream(sr) != EOF){
+        nomeIdoso = strtok(linha, ";");
+        idoso = BuscarItem(Sistema_EdCare->idosos, &CompararNomeIdoso, nomeIdoso);
+
+        nomeCuidador = strtok(linha, ";");
+        while(nomeCuidador != NULL){
+            AdicionarCuidador(idoso, BuscarItem(Sistema_EdCare->cuidadores, &CompararNomeCuidador, nomeCuidador));
+            nomeCuidador = strtok(NULL, ";");
+        }
+
         free(linha);
+        linha = ReadLine(sr);
+    }  
+    
+    DeletarStreamReader(sr);
+}
+
+void AtualizarEstruturas(EdCare Sistema_EdCare){
+    assert(Sistema_EdCare != NULL);
+
+    AtualizarIdosos(Sistema_EdCare);
+    AtualizarCuidadores(Sistema_EdCare);
+}
+
+void ProcessarInformacoes(EdCare Sistema_EdCare){
+    int i = 0;
+    Idoso idoso = BuscarItemIndex(Sistema_EdCare->idosos, i);
+
+    while(idoso != NULL){
+        
+
+        i++;
+        idoso = BuscarItemIndex(Sistema_EdCare->idosos, i);
+    }
+}
+
+static void AtualizarIdosos(EdCare Sistema_EdCare){
+    assert(Sistema_EdCare != NULL);
+
+    void *idoso = NULL;
+    for(ForEach(Sistema_EdCare->idosos, &idoso); idoso != NULL; ForEach(NULL, &idoso)){
+        AtualizarIdoso((Idoso) idoso);
+    }
+}
+
+static void AtualizarCuidadores(EdCare Sistema_EdCare){
+    assert(Sistema_EdCare != NULL);
+
+    void *cuidador = NULL;
+    for(ForEach(Sistema_EdCare->cuidadores, &cuidador); cuidador != NULL; ForEach(NULL, &cuidador)){
+        AtualizarCuidador((Cuidador) cuidador);
+    }
 }

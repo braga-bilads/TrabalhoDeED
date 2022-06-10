@@ -60,6 +60,13 @@ void AtualizarCuidador(Cuidador cuidador){
     ModificaLongitude(cuidador->localizador, longitude);
 }
 
+int CompararNomeCuidador(void *cuidador, void *nome){
+    Cuidador _cuidador = cuidador;
+    char *_nome = nome;
+
+    return strcmp(_cuidador->nome, _nome) == 0;
+}
+
 
 
 // DEBUG
