@@ -66,7 +66,10 @@ void AtualizarCuidador(Cuidador cuidador){
 char *CuidadorToString(Cuidador cuidador){
     assert(cuidador != NULL);
 
-    static char buffer[100];
-    sprintf(buffer, "Nome:%s,Localizador{%s}", cuidador->nome, LocalizadorToString(cuidador->localizador));
-    return buffer;
+    char buffer[1000];
+    char *localizadorToString = LocalizadorToString(cuidador->localizador);   
+    sprintf(buffer, "Nome:%s,Localizador{%s}", cuidador->nome, localizadorToString);
+    free(localizadorToString);
+
+    return strdup(buffer);
 }

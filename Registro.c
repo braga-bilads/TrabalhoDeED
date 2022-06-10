@@ -2,14 +2,12 @@
 #include <stdlib.h>
 #include <assert.h>
 #include "Registro.h"
-
 struct registro{
     double temperatura;
     FebreEnum febre;
     int queda;
     Localizador localizador;
     int contadorFebreBaixa;
-    int ehVivo;
 };
 
 Registro CriarRegistro(){
@@ -21,7 +19,6 @@ Registro CriarRegistro(){
     registro->queda = 0;
     registro->localizador = CriarLocalizador(0, 0);
     registro->contadorFebreBaixa = 0;
-    registro->ehVivo = 1;
 
     return registro;
 }
@@ -56,12 +53,6 @@ int RecuperaContadorFebreBaixaRegistro(Registro registro){
     return registro->contadorFebreBaixa;
 }
 
-int RecuperaEhVivoRegistro(Registro registro){
-    assert(registro != NULL);
-
-    return registro->ehVivo;
-}
-
 void DeletarRegistro(Registro registro){
     assert(registro != NULL);
 
@@ -69,7 +60,7 @@ void DeletarRegistro(Registro registro){
     free(registro);
 }
 
-void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador, int ehVivo){
+void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador){
     assert(registro != NULL && localizador != NULL);
 
     registro->temperatura = temperatura;
@@ -82,8 +73,6 @@ void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, i
     if(febre == FebreBaixa){
         registro->contadorFebreBaixa++;
     }
-
-    registro->ehVivo = ehVivo;
 }
 
 Registro ResetarRegistro(Registro registro){
@@ -98,10 +87,13 @@ Registro ResetarRegistro(Registro registro){
 char *RegistroToString(Registro registro){
     assert(registro != NULL);
 
-    static char buffer[100];
-    sprintf(buffer, "temperatura:%.2lf,febre:%d,queda:%d,localizador:{%s},contadorFebreBaixa:%d,ehVivo:%d",
+    char buffer[1000];
+    char *localizadorToString = LocalizadorToString(registro->localizador);
+    sprintf(buffer, "Temperatura:%.2lf,Febre:%d,Queda:%d,Localizador:{%s},ContadorFebreBaixa:%d",
         registro->temperatura, registro->febre,
-        registro->queda, LocalizadorToString(registro->localizador),
-        registro->contadorFebreBaixa, registro->ehVivo);
-    return buffer;
+        registro->queda, localizadorToString,
+        registro->contadorFebreBaixa);
+    free(localizadorToString);
+
+    return strdup(buffer);
 }

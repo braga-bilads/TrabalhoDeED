@@ -62,10 +62,11 @@ double CalcularDistancia(Localizador localizador1, Localizador localizador2){
 
 
 // DEBUG
+#include <string.h>
 char *LocalizadorToString(Localizador localizador){
     assert(localizador != NULL);
 
-    static char buffer[100];
-    sprintf(buffer, "latitude:%d,longitude:%d", localizador->latitude, localizador->longitude);
-    return buffer;
+    char buffer[1000];
+    sprintf(buffer, "Latitude:%d,Longitude:%d", localizador->latitude, localizador->longitude);
+    return strdup(buffer);
 }

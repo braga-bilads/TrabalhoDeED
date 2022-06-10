@@ -7,6 +7,8 @@
 #include <assert.h>
 #include "Cuidador.h"
 #include "FebreEnum.h"
+#include "Lista.h"
+#include "Registro.h"
 
 typedef struct idoso * Idoso;
 
@@ -17,6 +19,28 @@ typedef struct idoso * Idoso;
  * pre-condicao: nenhuma
  */
 Idoso CriarIdoso(char *nome);
+
+/**
+ * Retorna nome do idoso
+ * inputs: idoso
+ * output: nome
+ * pré-condição : os parametros passados são validos
+ */
+char * RecuperaNomeIdoso(Idoso idoso);
+
+Lista RecuperaAmigosIdoso(Idoso idoso);
+
+Lista RecuperaCuidadoresIdoso(Idoso idoso);
+
+Registro RecuperaRegistro(Idoso idoso);
+
+/* 
+ * Libera memoria alocada para o idoso
+ * inputs: o idoso
+ * output: nenhum
+ * pre-condicao: o idoso existe
+ */
+void DeletarIdoso(Idoso idoso);
 
 /**
  * Coloca um amigo na lista de amigos do idoso. 
@@ -67,32 +91,6 @@ void AdicionarCuidador(Idoso idoso, Cuidador cuidador);
  */
 Cuidador BuscarCuidadorMaisProximo(Idoso idoso);
 
-/**
- * Retorna lista de Registros
- * inputs: idoso e quantidade
- * output: lista de registros
- * pré-condição : parametros passados serem validos
- *                e quantidade é menor ou igual ao 
- *                numero de registros.
- */
-Registro BuscarRegistros(Idoso idoso, int quantidade);
-
-/**
- * Retorna nome do idoso
- * inputs: idoso
- * output: nome
- * pré-condição : os parametros passados são validos
- */
-char * RecuperaNomeIdoso(Idoso idoso);
-
-/* 
- * Libera memoria alocada para o idoso
- * inputs: o idoso
- * output: nenhum
- * pre-condicao: o idoso existe
- */
-void DeletarIdoso(Idoso idoso);
-
 /* 
  * Atualiza os dados do idoso
  * inputs: o idoso
@@ -108,5 +106,10 @@ void AtualizarIdoso(Idoso idoso);
  * pre-condicao: o idoso existe
  */
 int EhIdosoVivo(Idoso idoso);
+
+
+
+// DEBUG
+char *IdosoToString(Idoso idoso);
 
 #endif
