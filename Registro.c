@@ -77,11 +77,10 @@ void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, i
     }
 }
 
-Registro ResetarRegistro(Registro registro){
+void ResetarContadorFebreBaixaRegistro(Registro registro){
     assert(registro != NULL);
 
-    DeletarRegistro(registro);
-    return CriarRegistro();
+    registro->contadorFebreBaixa = 0;
 }
 
 

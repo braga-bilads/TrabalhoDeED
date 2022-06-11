@@ -7,6 +7,8 @@ typedef struct edcare* EdCare;
 
 EdCare CriarEdCare();
 
+void DeletarEdCare(EdCare Sistema_EdCare);
+
 void CriaVinculosdeApoio(EdCare Sistema_EdCare);
 
 void CriaVinculosdeCuidadores(EdCare Sistema_EdCare);

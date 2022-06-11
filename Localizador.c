@@ -11,7 +11,6 @@ struct localizador{
 
 Localizador CriarLocalizador(int latitude, int longitude){
     Localizador localizador = (Localizador) malloc(sizeof(struct localizador));
-
     assert(localizador != NULL);
 
     localizador->latitude = latitude;

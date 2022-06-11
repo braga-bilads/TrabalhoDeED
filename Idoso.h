@@ -9,6 +9,7 @@
 #include "FebreEnum.h"
 #include "Lista.h"
 #include "Registro.h"
+#include "StreamWriter.h"
 
 typedef struct idoso * Idoso;
 
@@ -32,7 +33,9 @@ Lista RecuperaAmigosIdoso(Idoso idoso);
 
 Lista RecuperaCuidadoresIdoso(Idoso idoso);
 
-Registro RecuperaRegistro(Idoso idoso);
+Registro RecuperaRegistroIdoso(Idoso idoso);
+
+StreamWriter RecuperaStreamWriterIdoso(Idoso idoso);
 
 /* 
  * Libera memoria alocada para o idoso

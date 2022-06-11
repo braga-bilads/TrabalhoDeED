@@ -66,19 +66,19 @@ void DeletarRegistro(Registro registro);
 
 /* 
  * Atualiza os dados do registro
- * inputs: o registro, temperatura, febre, queda, localizador e ehVivo
+ * inputs: o registro, temperatura, febre, queda, localizador
  * output: nenhum
  * pre-condicao: o registro existe
  */
 void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador);
 
 /* 
- * Reseta os dados do registro
+ * Reseta o contador de febre baixa do registro
  * inputs: o registro
- * output: o registro resetado
+ * output: nenhum
  * pre-condicao: o registro existe
  */
-Registro ResetarRegistro(Registro registro);
+void ResetarContadorFebreBaixaRegistro(Registro registro);
 
 
 

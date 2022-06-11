@@ -8,6 +8,7 @@ struct idoso
     Lista cuidadores;
     Registro registro;
     StreamReader sr;
+    StreamWriter sw;
     int vivo;
 };
 
@@ -25,6 +26,9 @@ Idoso CriarIdoso(char *nome){
     char path[100];
     sprintf(path, "%s.txt", nome);
     idoso->sr = CriarStreamReader(path);
+
+    sprintf(path, "%s-saida.txt", nome);
+    idoso->sw = CriarStreamWriter(path);
 
     idoso->vivo = 1;
 
@@ -49,22 +53,29 @@ Lista RecuperaCuidadoresIdoso(Idoso idoso){
     return idoso->cuidadores;
 }
 
-Registro RecuperaRegistro(Idoso idoso){
+Registro RecuperaRegistroIdoso(Idoso idoso){
     assert(idoso != NULL);
 
     return idoso->registro;
 }
 
+StreamWriter RecuperaStreamWriterIdoso(Idoso idoso){
+    assert(idoso != NULL);
+
+    return idoso->sw;
+}
+
 void DeletarIdoso(Idoso idoso){
     assert(idoso != NULL);
 
-    //DesfazerAmizades(idoso);
+    DesfazerAmizades(idoso);
 
     free(idoso->nome);
     DeletarLista(idoso->amigos, NULL);
     DeletarLista(idoso->cuidadores, NULL);
     DeletarRegistro(idoso->registro);
     DeletarStreamReader(idoso->sr);
+    DeletarStreamWriter(idoso->sw);
 
     free(idoso);
 }
@@ -89,11 +100,19 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
     Localizador localIdoso = RecuperaLocalizadorRegistro(idoso->registro);    
     
     void *amigo = NULL;
-    Localizador localAmigo = NULL;
     double dist = 0.0;
    
     ForEach(idoso->amigos, &amigo);
+    while(amigo != NULL && !((Idoso) amigo)->vivo){
+        ForEach(NULL, &amigo);
+    }
+
+    if(amigo == NULL){
+        return NULL;
+    }
+
     Idoso amigoMaisProximo = amigo;
+    Localizador localAmigo = RecuperaLocalizadorRegistro( ((Idoso) amigo)->registro );
     double menordist = CalcularDistancia(localIdoso, localAmigo);
 
     for(ForEach(NULL, &amigo) ; amigo != NULL ; ForEach(NULL, &amigo))
@@ -105,13 +124,18 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
             menordist = dist;
             amigoMaisProximo = amigo;
         }
-    }    
+    }
     
     return amigoMaisProximo;
 }
 
 void DesfazerAmizades(Idoso idoso){
-    
+    Idoso amigo = BuscarItemIndex(idoso->amigos, 0);
+
+    while(amigo != NULL){
+        RemoverAmigo(idoso, amigo);
+        amigo = BuscarItemIndex(idoso->amigos, 0);
+    }
 }
 
 void AdicionarCuidador(Idoso idoso, Cuidador cuidador){
@@ -126,11 +150,11 @@ Cuidador BuscarCuidadorMaisProximo(Idoso idoso){
     Localizador localIdoso = RecuperaLocalizadorRegistro(idoso->registro);
 
     void *cuidador = NULL;
-    Localizador localCuidador = NULL;
     double dist = 0.0;    
    
     ForEach(idoso->cuidadores, &cuidador);
     Cuidador cuidadorMaisProximo = cuidador;
+    Localizador localCuidador = RecuperaLocalizadorCuidador( (Cuidador) cuidador );
     double menordist = CalcularDistancia(localIdoso, localCuidador);
     
     for(ForEach(NULL, &cuidador) ; cuidador != NULL ; ForEach(NULL, &cuidador))
