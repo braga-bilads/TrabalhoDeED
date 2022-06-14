@@ -191,7 +191,7 @@ void AtualizarIdoso(Idoso idoso){
     FebreEnum febre = RetornarFebre(temperatura);
     Localizador localizador = CriarLocalizador(latitude, longitude);
 
-    AtualizarRegistro(idoso->registro,temperatura, febre, queda, localizador);
+    AtualizarRegistro(idoso->registro, febre, queda, localizador);
 }
 
 int EhIdosoVivo(Idoso idoso){
@@ -204,18 +204,4 @@ int CompararNomeIdoso(void *idoso, void *nome){
     assert(idoso != NULL && nome != NULL);
 
     return strcmp(((Idoso) idoso)->nome, (char *) nome) == 0;
-}
-
-
-
-// DEBUG
-char *IdosoToString(Idoso idoso){
-    assert(idoso != NULL);
-
-    char buffer[1000];
-    char *registroToString = RegistroToString(idoso->registro);
-    sprintf(buffer, "Nome:%s,Registro{%s},Vivo:%d", idoso->nome, registroToString, idoso->vivo);
-    free(registroToString);
-
-    return strdup(buffer);
 }

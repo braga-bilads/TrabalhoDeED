@@ -48,9 +48,4 @@ void AtualizarCuidador(Cuidador cuidador);
 
 int CompararNomeCuidador(void *cuidador, void *nome);
 
-
-
-// DEBUG
-char *CuidadorToString(Cuidador cuidador);
-
 #endif

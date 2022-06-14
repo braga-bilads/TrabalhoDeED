@@ -9,6 +9,8 @@ struct streamReader{
 };
 
 StreamReader CriarStreamReader(char *path){
+    assert(path != NULL);
+
     StreamReader sr = (StreamReader) malloc(sizeof(struct streamReader));
     assert(sr != NULL);
 

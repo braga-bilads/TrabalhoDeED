@@ -25,23 +25,28 @@ Lista AdicionarItem(Lista lista, void *item);
  * output: o item
  * pre-condicao: a lista, a funcao e a chave existem
  */
-void *BuscarItem(Lista lista, int (*CompararChave)(void *, void *), void *chave);
+void *BuscarItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
+/* 
+ * Busca um item na lista de acordo com seu index
+ * inputs: a lista e o index
+ * output: o item
+ * pre-condicao: a lista existe
+ */
 void *BuscarItemIndex(Lista lista, int index);
-
 
 /* 
  * Remove um item da lista de acordo com sua chave
  * inputs: a lista, uma funcao que compara a chave de acordo com o item, e a chave a ser comparada
- * output: a Lista
+ * output: o item
  * pre-condicao: a lista, a funcao e a chave existem
  */
-Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
+void *RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 /* 
  * Remove um item da lista de acordo com seu index
  * inputs: a lista e o index
- * output: nenhum
+ * output: o item
  * pre-condicao: a lista existe
  */
 void *RemoverItemIndex(Lista lista, int index);
@@ -53,22 +58,6 @@ void *RemoverItemIndex(Lista lista, int index);
  * pre-condicao: a lista existe, se Free == NULL a funcao nao libera memoria para item
  */
 void DeletarLista(Lista lista, void (*Free)(void *item));
-
-/**
- * Retorna conteudo da ultima celula da Lista
- * inputs: a lista
- * output: ponteiro para conteudo da celula
- * pre-condição: lista valida e não vazia
- */
-void *RecuperaConteudoDaUltimaCelula(Lista lista);
-
-/**
- * Retorna conteudo da primeira celula da Lista
- * inputs: a lista
- * output: void pointer para conteudo da celula
- * pre-condição: lista valida e não vazia
- */
-void *RecuperaConteudoDaPrimeiraCelula(Lista lista);
 
 /* 
  * Percorre a lista

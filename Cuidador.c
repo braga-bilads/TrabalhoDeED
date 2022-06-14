@@ -66,17 +66,3 @@ int CompararNomeCuidador(void *cuidador, void *nome){
 
     return strcmp(_cuidador->nome, _nome) == 0;
 }
-
-
-
-// DEBUG
-char *CuidadorToString(Cuidador cuidador){
-    assert(cuidador != NULL);
-
-    char buffer[1000];
-    char *localizadorToString = LocalizadorToString(cuidador->localizador);   
-    sprintf(buffer, "Nome:%s,Localizador{%s}", cuidador->nome, localizadorToString);
-    free(localizadorToString);
-
-    return strdup(buffer);
-}

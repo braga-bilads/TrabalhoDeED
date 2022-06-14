@@ -1,8 +1,6 @@
 #ifndef REGISTRO_H
 #define REGISTRO_H
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "Localizador.h"
 #include "FebreEnum.h"
 
@@ -15,14 +13,6 @@ typedef struct registro* Registro;
  * pre-condicao: nenhuma
  */
 Registro CriarRegistro();
-
-/* 
- * Retorna a temperatura registrada
- * inputs: o registro
- * output: a temperatura registrada
- * pre-condicao: o registro existe
- */
-double RecuperaTemperaturaRegistro(Registro registro);
 
 /* 
  * Retorna a febre registrada
@@ -54,7 +44,7 @@ Localizador RecuperaLocalizadorRegistro(Registro registro);
  * output: a contagem de febres baixas 
  * pre-condicao: o registro existe
  */
-int RecuperaContadorFebreBaixaRegistro(Registro registro);
+int RecuperaContadorFebreBaixa(Registro registro);
 
 /* 
  * Libera memoria alocada para o registro
@@ -66,11 +56,11 @@ void DeletarRegistro(Registro registro);
 
 /* 
  * Atualiza os dados do registro
- * inputs: o registro, temperatura, febre, queda, localizador
+ * inputs: o registro, febre, queda e localizador
  * output: nenhum
- * pre-condicao: o registro existe
+ * pre-condicao: o registro e o localizador existem
  */
-void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador);
+void AtualizarRegistro(Registro registro, FebreEnum febre, int queda, Localizador localizador);
 
 /* 
  * Reseta o contador de febre baixa do registro
@@ -78,11 +68,6 @@ void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, i
  * output: nenhum
  * pre-condicao: o registro existe
  */
-void ResetarContadorFebreBaixaRegistro(Registro registro);
-
-
-
-// DEBUG
-char *RegistroToString(Registro registro);
+void ResetarContadorFebreBaixa(Registro registro);
 
 #endif

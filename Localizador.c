@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
@@ -19,22 +18,10 @@ Localizador CriarLocalizador(int latitude, int longitude){
     return localizador;
 }
 
-int RecuperaLatitude(Localizador localizador){
-    assert(localizador != NULL);
-
-    return localizador->latitude;
-}
-
 void ModificaLatitude(Localizador localizador, int latitude){
     assert(localizador != NULL);
 
     localizador->latitude = latitude;
-}
-
-int RecuperaLongitude(Localizador localizador){
-    assert(localizador != NULL);
-
-    return localizador->longitude;
 }
 
 void ModificaLongitude(Localizador localizador, int longitude){
@@ -56,16 +43,4 @@ double CalcularDistancia(Localizador localizador1, Localizador localizador2){
         y1 = localizador1->longitude, y2 = localizador2->longitude;
 
     return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-}
-
-
-
-// DEBUG
-#include <string.h>
-char *LocalizadorToString(Localizador localizador){
-    assert(localizador != NULL);
-
-    char buffer[1000];
-    sprintf(buffer, "Latitude:%d,Longitude:%d", localizador->latitude, localizador->longitude);
-    return strdup(buffer);
 }

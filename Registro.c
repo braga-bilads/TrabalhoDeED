@@ -1,11 +1,8 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <string.h>
 #include "Registro.h"
 
 struct registro{
-    double temperatura;
     FebreEnum febre;
     int queda;
     Localizador localizador;
@@ -16,19 +13,12 @@ Registro CriarRegistro(){
     Registro registro = (Registro) malloc(sizeof(struct registro));
     assert(registro != NULL);
 
-    registro->temperatura = 0.0;
     registro->febre = SemFebre;
     registro->queda = 0;
     registro->localizador = CriarLocalizador(0, 0);
     registro->contadorFebreBaixa = 0;
 
     return registro;
-}
-
-double RecuperaTemperaturaRegistro(Registro registro){
-    assert(registro != NULL);
-
-    return registro->temperatura;
 }
 
 FebreEnum RecuperaFebreRegistro(Registro registro){
@@ -49,7 +39,7 @@ Localizador RecuperaLocalizadorRegistro(Registro registro){
     return registro->localizador;
 }
 
-int RecuperaContadorFebreBaixaRegistro(Registro registro){
+int RecuperaContadorFebreBaixa(Registro registro){
     assert(registro != NULL);
 
     return registro->contadorFebreBaixa;
@@ -62,10 +52,9 @@ void DeletarRegistro(Registro registro){
     free(registro);
 }
 
-void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, int queda, Localizador localizador){
+void AtualizarRegistro(Registro registro, FebreEnum febre, int queda, Localizador localizador){
     assert(registro != NULL && localizador != NULL);
 
-    registro->temperatura = temperatura;
     registro->febre = febre;
     registro->queda = queda;
 
@@ -77,25 +66,8 @@ void AtualizarRegistro(Registro registro, double temperatura, FebreEnum febre, i
     }
 }
 
-void ResetarContadorFebreBaixaRegistro(Registro registro){
+void ResetarContadorFebreBaixa(Registro registro){
     assert(registro != NULL);
 
     registro->contadorFebreBaixa = 0;
-}
-
-
-// DEBUG
-#include <string.h>
-char *RegistroToString(Registro registro){
-    assert(registro != NULL);
-
-    char buffer[1000];
-    char *localizadorToString = LocalizadorToString(registro->localizador);
-    sprintf(buffer, "Temperatura:%.2lf,Febre:%d,Queda:%d,Localizador:{%s},ContadorFebreBaixa:%d",
-        registro->temperatura, registro->febre,
-        registro->queda, localizadorToString,
-        registro->contadorFebreBaixa);
-    free(localizadorToString);
-
-    return strdup(buffer);
 }

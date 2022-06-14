@@ -23,7 +23,7 @@ void DeletarStreamWriter(StreamWriter sw);
  * Escreve uma linha no arquivo referente ao streamWriter
  * inputs: o streamWriter e a string a ser escrita
  * output: nenhum
- * pre-condicao: o streamWriter existe
+ * pre-condicao: o streamWriter e a string existem
  */
 void WriteLine(StreamWriter sw, char *string);
 

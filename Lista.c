@@ -1,8 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include "Lista.h"
-#include <string.h>
 #include <assert.h>
+#include "Lista.h"
 
 typedef struct celula Celula;
 
@@ -12,14 +10,7 @@ typedef struct celula Celula;
  * outputs: ponteiro para celula
  * pré-condição: lista é valida, função existe, chave é valida 
  */
-static Celula* BuscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave);
-/**
- * Função para buscar celula por index (posição na lista).
- * inputs: lista e index.
- * outputs: ponteiro para celula.
- * pré-condição: lista é valida e index é valido.
- */
-static Celula* BuscarCelulaIndex(Lista lista,int index);
+static Celula* _buscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 struct celula{
     void* conteudo; 
@@ -34,6 +25,8 @@ struct lista{
 
 Lista CriarLista(){
     Lista nova = (Lista)malloc(sizeof(struct lista));
+    assert(nova != NULL);
+
     nova->prim = NULL;
     nova->ult = NULL;
 
@@ -41,7 +34,10 @@ Lista CriarLista(){
 }
 
 Lista AdicionarItem(Lista lista, void *item){
+    assert(lista != NULL && item != NULL);
+
     Celula* nova = (Celula*)malloc(sizeof(Celula));
+    assert(nova != NULL);
     
     nova->ant = lista->ult;
 
@@ -52,14 +48,15 @@ Lista AdicionarItem(Lista lista, void *item){
     
     lista->ult = nova;
     nova->prox = NULL;
-    nova->conteudo = item;
-  
+    nova->conteudo = item;  
 
     return lista;
 }
 
-void *BuscarItem(Lista lista, int (*CompararChave)(void *, void *), void *chave){
-    Celula *aux = BuscarCelula(lista, CompararChave, chave);
+void *BuscarItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+    assert(lista != NULL && CompararChave != NULL && chave != NULL);
+
+    Celula *aux = _buscarCelula(lista, CompararChave, chave);
     if(aux != NULL) return aux->conteudo;
     return NULL;
 }
@@ -78,11 +75,15 @@ void *BuscarItemIndex(Lista lista, int index){
     return p->conteudo;
 }
 
-Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
-    Celula *aux = BuscarCelula(lista, CompararChave, chave);
+void *RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+    assert(lista != NULL && CompararChave != NULL && chave != NULL);
+
+    Celula *aux = _buscarCelula(lista, CompararChave, chave);
 
     //lista vazia
-    if(aux == NULL) return lista;
+    if(aux == NULL) return NULL;
+
+    void *conteudo = aux->conteudo;
 
     if(aux == lista->prim){
         //unico da lista
@@ -111,57 +112,56 @@ Lista RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *
         free(aux);
     }
 
-    return lista;
+    return conteudo;
 }
 
 void *RemoverItemIndex(Lista lista, int index){
-    Celula* p;
-    p = lista->prim;
-    
+    assert(lista != NULL);
+
+    Celula* p = lista->prim;    
     for (int i = 0; i < index && p ; i++)
     {
         p = p->prox;
     }
     
-    
     //p == NULL vale se não tiver na lista ou for lista vazia    
     if(!p){
         return NULL;
     }
+
+    void *conteudo = p->conteudo;
+
     //Unico
     if(lista->prim == p && p->prox == NULL){
         lista->prim = NULL;
         lista->ult = NULL;
-        void *conteudo = p->conteudo;
         free(p);
-        return conteudo;
     }
     //Primeiro
-    if(index == 0){
+    else if(index == 0){
         lista->prim = p->prox;
         p->prox->ant = NULL;
-        void *conteudo = p->conteudo;
         free(p);
-        return conteudo;
     }
     //Ultimo
-    if(lista->ult == p){
+    else if(lista->ult == p){
         p->ant->prox = NULL;
         lista->ult = p->ant;
-        void *conteudo = p->conteudo;
         free(p);
-        return conteudo;
     }
     else{
         p->ant->prox = p->prox;
         p->prox->ant = p->ant;
-        void *conteudo = p->conteudo;
         free(p);
-        return conteudo;
+        
     }
+
+    return conteudo;
 }
 
 void DeletarLista(Lista lista, void (*Free)(void *item)){
+    assert(lista != NULL);
+
     Celula* p = lista->prim;
     Celula* aux;
     while(p){
@@ -173,47 +173,6 @@ void DeletarLista(Lista lista, void (*Free)(void *item)){
         p = aux;
     }
     free(lista);
-}
-
-static Celula* BuscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave){
-    assert(lista != NULL);
-    Celula *aux = lista->prim;
-
-    while(aux != NULL && CompararChave(aux->conteudo, chave) != 1){
-        aux = aux->prox;
-    }
-
-    return aux;
-}
-
-static Celula* BuscarCelulaIndex(Lista lista,int index){
-    Celula * p;
-    p = lista->prim;
-    
-    for (int i = 0; i < index && p; i++)
-    {
-        p = p->prox;
-    }
-
-    if(!p) return NULL;
-
-    return p;
-}
-
-void * RecuperaConteudoDaUltimaCelula(Lista lista){
-    assert(lista != NULL);
-    if(!lista->ult) 
-        return NULL;
-
-    return lista->ult->conteudo;
-}
-
-void * RecuperaConteudoDaPrimeiraCelula(Lista lista){
-    assert(lista != NULL);
-    if(!lista->prim) 
-        return NULL;
-
-    return lista->prim->conteudo;
 }
 
 void ForEach(Lista lista, void **item){
@@ -232,4 +191,15 @@ void ForEach(Lista lista, void **item){
     else{
         *item = aux->conteudo;
     }
+}
+
+static Celula* _buscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+    assert(lista != NULL);
+    Celula *aux = lista->prim;
+
+    while(aux != NULL && CompararChave(aux->conteudo, chave) != 1){
+        aux = aux->prox;
+    }
+
+    return aux;
 }

@@ -223,7 +223,7 @@ static void RemoverIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso){
 static Idoso BuscarIdosoEdCare(EdCare Sistema_EdCare, char *nome){
     assert(Sistema_EdCare != NULL && nome != NULL);
 
-    return BuscarItem(Sistema_EdCare->idosos, &CompararNomeIdoso, nome);
+    return BuscarItemChave(Sistema_EdCare->idosos, &CompararNomeIdoso, nome);
 }
 
 static void AtualizarIdososEdCare(EdCare Sistema_EdCare){
@@ -244,7 +244,7 @@ static void AdicionarCuidadorEdCare(EdCare Sistema_EdCare, Cuidador cuidador){
 static Cuidador BuscarCuidadorEdCare(EdCare Sistema_EdCare, char *nome){
     assert(Sistema_EdCare != NULL && nome != NULL);
 
-    return BuscarItem(Sistema_EdCare->cuidadores, &CompararNomeCuidador, nome);
+    return BuscarItemChave(Sistema_EdCare->cuidadores, &CompararNomeCuidador, nome);
 }
 
 static void AtualizarCuidadoresEdCare(EdCare Sistema_EdCare){
@@ -275,15 +275,15 @@ static char *ProcessarInformacoesIdosoEdCare(Idoso idoso){
         sprintf(buffer, "queda, acionou %s", RecuperaNomeCuidador(cuidador));
 
         //verificando o contador de febre baixa
-        int contadorFebreBaixa = RecuperaContadorFebreBaixaRegistro(registroIdoso);
+        int contadorFebreBaixa = RecuperaContadorFebreBaixa(registroIdoso);
         if(contadorFebreBaixa == 4){
-            ResetarContadorFebreBaixaRegistro(registroIdoso);
+            ResetarContadorFebreBaixa(registroIdoso);
         }
 
         //verificando o contador de febre baixa
         FebreEnum febre = RecuperaFebreRegistro(registroIdoso);
         if(febre == FebreAlta){
-            ResetarContadorFebreBaixaRegistro(registroIdoso);
+            ResetarContadorFebreBaixa(registroIdoso);
         }
 
         return strdup(buffer);
@@ -292,7 +292,7 @@ static char *ProcessarInformacoesIdosoEdCare(Idoso idoso){
     //febre alta
     FebreEnum febre = RecuperaFebreRegistro(registroIdoso);
     if(febre == FebreAlta){
-        ResetarContadorFebreBaixaRegistro(registroIdoso);
+        ResetarContadorFebreBaixa(registroIdoso);
 
         Cuidador cuidador = BuscarCuidadorMaisProximo(idoso);
         sprintf(buffer, "febre alta, acionou %s", RecuperaNomeCuidador(cuidador));
@@ -301,9 +301,9 @@ static char *ProcessarInformacoesIdosoEdCare(Idoso idoso){
 
     //febre baixa
     if(febre == FebreBaixa){
-        int contadorFebreBaixa = RecuperaContadorFebreBaixaRegistro(registroIdoso);
+        int contadorFebreBaixa = RecuperaContadorFebreBaixa(registroIdoso);
         if(contadorFebreBaixa == 4){
-            ResetarContadorFebreBaixaRegistro(registroIdoso);
+            ResetarContadorFebreBaixa(registroIdoso);
 
             Cuidador cuidador = BuscarCuidadorMaisProximo(idoso);
             sprintf(buffer, "febre baixa pela quarta vez, acionou %s", RecuperaNomeCuidador(cuidador));

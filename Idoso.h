@@ -112,9 +112,4 @@ int EhIdosoVivo(Idoso idoso);
 
 int CompararNomeIdoso(void *idoso, void *nome);
 
-
-
-// DEBUG
-char *IdosoToString(Idoso idoso);
-
 #endif

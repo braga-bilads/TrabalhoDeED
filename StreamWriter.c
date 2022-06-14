@@ -8,6 +8,8 @@ struct streamWriter{
 };
 
 StreamWriter CriarStreamWriter(char *path){
+    assert(path != NULL);
+
     StreamWriter sw = (StreamWriter) malloc(sizeof(struct streamWriter));
     assert(sw != NULL);
 
@@ -26,7 +28,7 @@ void DeletarStreamWriter(StreamWriter sw){
 }
 
 void WriteLine(StreamWriter sw, char *string){
-    assert(sw != NULL);
+    assert(sw != NULL && string != NULL);
     assert(sw->arquivo != NULL);
     
     fprintf(sw->arquivo, "%s\n", string);

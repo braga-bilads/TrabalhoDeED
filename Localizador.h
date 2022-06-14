@@ -12,28 +12,12 @@ typedef struct localizador* Localizador;
 Localizador CriarLocalizador(int latitude, int longitude);
 
 /* 
- * Retorna a latitude do localizador
- * inputs: o localizador
- * output: a latitude do localizador
- * pre-condicao: o localizador existe
- */
-int RecuperaLatitude(Localizador localizador);
-
-/* 
  * Modifica a latitude do localizador
  * inputs: o localizador e a nova latitude
  * output: nenhum
  * pre-condicao: o localizador existe
  */
 void ModificaLatitude(Localizador localizador, int latitude);
-
-/* 
- * Retorna a longitude do localizador
- * inputs: o localizador
- * output: a longitude do localizador
- * pre-condicao: o localizador existe
- */
-int RecuperaLongitude(Localizador localizador);
 
 /* 
  * Modifica a longitude do localizador
@@ -58,10 +42,5 @@ void DeletarLocalizador(Localizador localizador);
  * pre-condicao: os localizadores existem
  */
 double CalcularDistancia(Localizador localizador1, Localizador localizador2);
-
-
-
-// DEBUG
-char *LocalizadorToString(Localizador localizador);
 
 #endif
