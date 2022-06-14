@@ -46,6 +46,12 @@ void DeletarCuidador(void *cuidador);
  */
 void AtualizarCuidador(Cuidador cuidador);
 
+/*
+ * Compara nome do cuidador com um nome passado como parametro 
+ * inputs: void pointer para cuidador e void pointer para nome
+ * output: 0 se iguais, diferente de 0 caso contrário
+ * pre-condicao: cuidador e nome existem
+ */
 int CompararNomeCuidador(void *cuidador, void *nome);
 
 #endif

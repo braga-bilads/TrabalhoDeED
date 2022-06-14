@@ -63,6 +63,7 @@ void AtualizarCuidador(Cuidador cuidador){
 int CompararNomeCuidador(void *cuidador, void *nome){
     Cuidador _cuidador = cuidador;
     char *_nome = nome;
-
+    assert(_cuidador);
+    assert(_nome);
     return strcmp(_cuidador->nome, _nome) == 0;
 }
