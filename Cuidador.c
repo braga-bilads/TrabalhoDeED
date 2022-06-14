@@ -36,12 +36,12 @@ Localizador RecuperaLocalizadorCuidador(Cuidador cuidador){
     return cuidador->localizador;
 }
 
-void DeletarCuidador(Cuidador cuidador){
+void DeletarCuidador(void *cuidador){
     assert(cuidador != NULL);
 
-    free(cuidador->nome);
-    DeletarLocalizador(cuidador->localizador);
-    DeletarStreamReader(cuidador->sr);
+    free( ((Cuidador) cuidador)->nome );
+    DeletarLocalizador( ((Cuidador) cuidador)->localizador );
+    DeletarStreamReader( ((Cuidador) cuidador)->sr );
 
     free(cuidador);
 }

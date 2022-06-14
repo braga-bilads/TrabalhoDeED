@@ -65,17 +65,17 @@ StreamWriter RecuperaStreamWriterIdoso(Idoso idoso){
     return idoso->sw;
 }
 
-void DeletarIdoso(Idoso idoso){
+void DeletarIdoso(void *idoso){
     assert(idoso != NULL);
 
-    DesfazerAmizades(idoso);
+    DesfazerAmizades((Idoso) idoso);
 
-    free(idoso->nome);
-    DeletarLista(idoso->amigos, NULL);
-    DeletarLista(idoso->cuidadores, NULL);
-    DeletarRegistro(idoso->registro);
-    DeletarStreamReader(idoso->sr);
-    DeletarStreamWriter(idoso->sw);
+    free( ((Idoso) idoso)->nome );
+    DeletarLista( ((Idoso) idoso)->amigos, NULL );
+    DeletarLista( ((Idoso) idoso)->cuidadores, NULL );
+    DeletarRegistro( ((Idoso) idoso)->registro );
+    DeletarStreamReader( ((Idoso) idoso)->sr );
+    DeletarStreamWriter( ((Idoso) idoso)->sw );
 
     free(idoso);
 }
@@ -195,14 +195,15 @@ void AtualizarIdoso(Idoso idoso){
 }
 
 int EhIdosoVivo(Idoso idoso){
+    assert(idoso != NULL);
+
     return idoso->vivo;
 }
 
 int CompararNomeIdoso(void *idoso, void *nome){
-    Idoso _idoso = idoso;
-    char *_nome = nome;
+    assert(idoso != NULL && nome != NULL);
 
-    return strcmp(_idoso->nome, _nome) == 0;
+    return strcmp(((Idoso) idoso)->nome, (char *) nome) == 0;
 }
 
 

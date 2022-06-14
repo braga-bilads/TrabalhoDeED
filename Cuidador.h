@@ -36,7 +36,7 @@ Localizador RecuperaLocalizadorCuidador(Cuidador cuidador);
  * output: nenhum
  * pre-condicao: o cuidador existe
  */
-void DeletarCuidador(Cuidador cuidador);
+void DeletarCuidador(void *cuidador);
 
 /* 
  * Atualiza os dados do cuidador

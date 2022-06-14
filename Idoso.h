@@ -43,7 +43,7 @@ StreamWriter RecuperaStreamWriterIdoso(Idoso idoso);
  * output: nenhum
  * pre-condicao: o idoso existe
  */
-void DeletarIdoso(Idoso idoso);
+void DeletarIdoso(void *idoso);
 
 /**
  * Coloca um amigo na lista de amigos do idoso. 
