@@ -21,7 +21,6 @@ StreamWriter CriarStreamWriter(char *path){
 
 void DeletarStreamWriter(StreamWriter sw){
     assert(sw != NULL);
-    assert(sw->arquivo != NULL);
 
     fclose(sw->arquivo);
     free(sw);
@@ -29,7 +28,6 @@ void DeletarStreamWriter(StreamWriter sw){
 
 void WriteLine(StreamWriter sw, char *string){
     assert(sw != NULL && string != NULL);
-    assert(sw->arquivo != NULL);
     
     fprintf(sw->arquivo, "%s\n", string);
 }

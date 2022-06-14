@@ -44,14 +44,6 @@ void *BuscarItemIndex(Lista lista, int index);
 void *RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 /* 
- * Remove um item da lista de acordo com seu index
- * inputs: a lista e o index
- * output: o item
- * pre-condicao: a lista existe
- */
-void *RemoverItemIndex(Lista lista, int index);
-
-/* 
  * Libera memoria alocada para a lista
  * inputs: a lista e uma funcao que libera a memoria alocada para item
  * output: nenhum

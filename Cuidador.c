@@ -11,6 +11,8 @@ struct cuidador{
 };
 
 Cuidador CriarCuidador(char *nome){
+    assert(nome != NULL);
+
     Cuidador cuidador = (Cuidador) malloc(sizeof(struct cuidador));
     assert(cuidador != NULL);
 
@@ -61,9 +63,7 @@ void AtualizarCuidador(Cuidador cuidador){
 }
 
 int CompararNomeCuidador(void *cuidador, void *nome){
-    Cuidador _cuidador = cuidador;
-    char *_nome = nome;
-    assert(_cuidador);
-    assert(_nome);
-    return strcmp(_cuidador->nome, _nome) == 0;
+    assert(cuidador != NULL && nome != NULL);
+
+    return strcmp( ((Cuidador) cuidador)->nome, nome ) == 0;
 }

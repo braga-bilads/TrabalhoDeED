@@ -10,7 +10,7 @@ typedef struct cuidador* Cuidador;
  * Aloca memoria para o cuidador e o inicializa
  * inputs: o nome do cuidador
  * output: o cuidador criado
- * pre-condicao: nenhuma
+ * pre-condicao: o nome existe
  */
 Cuidador CriarCuidador(char *nome);
 
@@ -49,7 +49,7 @@ void AtualizarCuidador(Cuidador cuidador);
 /*
  * Compara nome do cuidador com um nome passado como parametro 
  * inputs: void pointer para cuidador e void pointer para nome
- * output: 0 se iguais, diferente de 0 caso contrário
+ * output: 1 se iguais, diferente de 1 caso contrário
  * pre-condicao: cuidador e nome existem
  */
 int CompararNomeCuidador(void *cuidador, void *nome);

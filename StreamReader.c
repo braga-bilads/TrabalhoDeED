@@ -29,7 +29,6 @@ int RecuperaEndOfStream(StreamReader sr){
 
 void DeletarStreamReader(StreamReader sr){
     assert(sr != NULL);
-    assert(sr->arquivo != NULL);
 
     fclose(sr->arquivo);
     free(sr);
@@ -37,7 +36,6 @@ void DeletarStreamReader(StreamReader sr){
 
 char *ReadLine(StreamReader sr){
     assert(sr != NULL);
-    assert(sr->arquivo != NULL);
 
     char *string = NULL;
     sr->endOfStream = fscanf(sr->arquivo, " %m[^\n]%*c", &string);

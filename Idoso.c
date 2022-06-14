@@ -1,5 +1,10 @@
-#include "Idoso.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <assert.h>
+#include "Lista.h"
 #include "Localizador.h"
+#include "Idoso.h"
 
 struct idoso
 {
@@ -41,18 +46,6 @@ char *RecuperaNomeIdoso(Idoso idoso){
     return idoso->nome;
 }
 
-Lista RecuperaAmigosIdoso(Idoso idoso){
-    assert(idoso != NULL);
-
-    return idoso->amigos;
-}
-
-Lista RecuperaCuidadoresIdoso(Idoso idoso){
-    assert(idoso != NULL);
-
-    return idoso->cuidadores;
-}
-
 Registro RecuperaRegistroIdoso(Idoso idoso){
     assert(idoso != NULL);
 
@@ -68,7 +61,7 @@ StreamWriter RecuperaStreamWriterIdoso(Idoso idoso){
 void DeletarIdoso(void *idoso){
     assert(idoso != NULL);
 
-    DesfazerAmizades((Idoso) idoso);
+    DesfazerAmizades(idoso);
 
     free( ((Idoso) idoso)->nome );
     DeletarLista( ((Idoso) idoso)->amigos, NULL );
@@ -102,6 +95,7 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
     void *amigo = NULL;
     double dist = 0.0;
    
+    //procura o primeiro amigo vivo da lista
     ForEach(idoso->amigos, &amigo);
     while(amigo != NULL && !((Idoso) amigo)->vivo){
         ForEach(NULL, &amigo);
@@ -130,8 +124,9 @@ Idoso BuscarAmigoMaisProximo(Idoso idoso){
 }
 
 void DesfazerAmizades(Idoso idoso){
-    Idoso amigo = BuscarItemIndex(idoso->amigos, 0);
+    assert(idoso != NULL);
 
+    Idoso amigo = BuscarItemIndex(idoso->amigos, 0);
     while(amigo != NULL){
         RemoverAmigo(idoso, amigo);
         amigo = BuscarItemIndex(idoso->amigos, 0);
@@ -150,16 +145,16 @@ Cuidador BuscarCuidadorMaisProximo(Idoso idoso){
     Localizador localIdoso = RecuperaLocalizadorRegistro(idoso->registro);
 
     void *cuidador = NULL;
-    double dist = 0.0;    
-   
+    double dist = 0.0;   
     ForEach(idoso->cuidadores, &cuidador);
+
     Cuidador cuidadorMaisProximo = cuidador;
-    Localizador localCuidador = RecuperaLocalizadorCuidador( (Cuidador) cuidador );
+    Localizador localCuidador = RecuperaLocalizadorCuidador(cuidador);
     double menordist = CalcularDistancia(localIdoso, localCuidador);
     
     for(ForEach(NULL, &cuidador) ; cuidador != NULL ; ForEach(NULL, &cuidador))
     {
-        localCuidador = RecuperaLocalizadorCuidador( (Cuidador) cuidador );
+        localCuidador = RecuperaLocalizadorCuidador(cuidador);
         dist = CalcularDistancia(localIdoso, localCuidador);
         if (dist < menordist)
         {

@@ -18,7 +18,7 @@
  * output: nenhum
  * pre-condicao: o sistema edcare e o idoso existem
  */
-static void AdicionarIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
+static void _adicionarIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
 
 /* 
  * Remove um idoso da lista de idosos do sistema edcare
@@ -26,7 +26,7 @@ static void AdicionarIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
  * output: nenhum
  * pre-condicao: o sistema edcare e o idoso existem
  */
-static void RemoverIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
+static void _removerIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
 
 /* 
  * Busca um idoso na lista de idosos do sistema edcare
@@ -34,7 +34,7 @@ static void RemoverIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
  * output: o idoso
  * pre-condicao: o sistema edcare e o nome do idoso existem
  */
-static Idoso BuscarIdosoEdCare(EdCare Sistema_EdCare, char *nome);
+static Idoso _buscarIdosoEdCare(EdCare Sistema_EdCare, char *nome);
 
 /* 
  * Atualiza os dados de todos idosos registrados no sistema edcare
@@ -42,7 +42,7 @@ static Idoso BuscarIdosoEdCare(EdCare Sistema_EdCare, char *nome);
  * output: nenhum
  * pre-condicao: o sistema edcare existe
  */
-static void AtualizarIdososEdCare(EdCare Sistema_EdCare);
+static void _atualizarIdososEdCare(EdCare Sistema_EdCare);
 
 /* 
  * Adiciona um cudador a lista de cuidadores do sistema edcare
@@ -50,7 +50,7 @@ static void AtualizarIdososEdCare(EdCare Sistema_EdCare);
  * output: nenhum
  * pre-condicao: o sistema edcare e o cudador existem
  */
-static void AdicionarCuidadorEdCare(EdCare Sistema_EdCare, Cuidador cuidador);
+static void _adicionarCuidadorEdCare(EdCare Sistema_EdCare, Cuidador cuidador);
 
 /* 
  * Busca um cuidador na lista de cuidadores do sistema edcare
@@ -58,7 +58,7 @@ static void AdicionarCuidadorEdCare(EdCare Sistema_EdCare, Cuidador cuidador);
  * output: o cuidador
  * pre-condicao: o sistema edcare e o nome do cuidador existem
  */
-static Cuidador BuscarCuidadorEdCare(EdCare Sistema_EdCare, char *nome);
+static Cuidador _buscarCuidadorEdCare(EdCare Sistema_EdCare, char *nome);
 
 /* 
  * Atualiza os dados de todos cuidadores registrados no sistema edcare
@@ -66,7 +66,7 @@ static Cuidador BuscarCuidadorEdCare(EdCare Sistema_EdCare, char *nome);
  * output: nenhum
  * pre-condicao: o sistema edcare existe
  */
-static void AtualizarCuidadoresEdCare(EdCare Sistema_EdCare);
+static void _atualizarCuidadoresEdCare(EdCare Sistema_EdCare);
 
 /* 
  * Processa as informacoes do idoso e gera um feedback
@@ -74,7 +74,7 @@ static void AtualizarCuidadoresEdCare(EdCare Sistema_EdCare);
  * output: o feedback gerado
  * pre-condicao: o idoso existe
  */
-static char *ProcessarInformacoesIdosoEdCare(Idoso idoso);
+static char *_processarInformacoesIdosoEdCare(Idoso idoso);
 
 struct edcare
 {
@@ -109,7 +109,7 @@ void CriaVinculosdeApoioEdCare(EdCare Sistema_EdCare){
     //colocando Idosos no sistema 
     char* nome = strtok(linha, ";");
     while(nome != NULL){
-        AdicionarIdosoEdCare(Sistema_EdCare, CriarIdoso(nome));
+        _adicionarIdosoEdCare(Sistema_EdCare, CriarIdoso(nome));
         nome = strtok(NULL, ";");
     }
     free(linha);
@@ -125,8 +125,8 @@ void CriaVinculosdeApoioEdCare(EdCare Sistema_EdCare){
     while(RecuperaEndOfStream(sr) != EOF){
         sscanf(linha, " %m[^;];%ms", &nomeIdoso, &nomeAmigo);
 
-        idoso = BuscarIdosoEdCare(Sistema_EdCare, nomeIdoso);
-        amigo = BuscarIdosoEdCare(Sistema_EdCare, nomeAmigo);
+        idoso = _buscarIdosoEdCare(Sistema_EdCare, nomeIdoso);
+        amigo = _buscarIdosoEdCare(Sistema_EdCare, nomeAmigo);
         AdicionarAmigo(idoso, amigo);
 
         free(nomeIdoso);
@@ -148,7 +148,7 @@ void CriaVinculosdeCuidadoresEdCare(EdCare Sistema_EdCare){
     //colocando cuidadores no sistema
     char* nome = strtok(linha, ";");
     while(nome != NULL){
-        AdicionarCuidadorEdCare(Sistema_EdCare, CriarCuidador(nome));
+        _adicionarCuidadorEdCare(Sistema_EdCare, CriarCuidador(nome));
         nome = strtok(NULL, ";");
     }
     free(linha);
@@ -163,11 +163,11 @@ void CriaVinculosdeCuidadoresEdCare(EdCare Sistema_EdCare){
     linha = ReadLine(sr);
     while(RecuperaEndOfStream(sr) != EOF){
         nomeIdoso = strtok(linha, ";");
-        idoso = BuscarIdosoEdCare(Sistema_EdCare, nomeIdoso);
+        idoso = _buscarIdosoEdCare(Sistema_EdCare, nomeIdoso);
 
         nomeCuidador = strtok(NULL, ";");
         while(nomeCuidador != NULL){
-            AdicionarCuidador(idoso, BuscarCuidadorEdCare(Sistema_EdCare, nomeCuidador));
+            AdicionarCuidador(idoso, _buscarCuidadorEdCare(Sistema_EdCare, nomeCuidador));
             nomeCuidador = strtok(NULL, ";");
         }
 
@@ -181,8 +181,8 @@ void CriaVinculosdeCuidadoresEdCare(EdCare Sistema_EdCare){
 void AtualizarEstruturasEdCare(EdCare Sistema_EdCare){
     assert(Sistema_EdCare != NULL);
 
-    AtualizarIdososEdCare(Sistema_EdCare);
-    AtualizarCuidadoresEdCare(Sistema_EdCare);
+    _atualizarIdososEdCare(Sistema_EdCare);
+    _atualizarCuidadoresEdCare(Sistema_EdCare);
 }
 
 void ProcessarInformacoesEdCare(EdCare Sistema_EdCare){
@@ -193,12 +193,12 @@ void ProcessarInformacoesEdCare(EdCare Sistema_EdCare){
 
     while(idoso != NULL){
         StreamWriter sw = RecuperaStreamWriterIdoso(idoso);
-        char *string = ProcessarInformacoesIdosoEdCare(idoso);
+        char *string = _processarInformacoesIdosoEdCare(idoso);
         WriteLine(sw, string);
 
         if(strcmp(string, "falecimento") == 0){
             i--;
-            RemoverIdosoEdCare(Sistema_EdCare, idoso);
+            _removerIdosoEdCare(Sistema_EdCare, idoso);
         }
         free(string);
 
@@ -207,26 +207,26 @@ void ProcessarInformacoesEdCare(EdCare Sistema_EdCare){
     }
 }
 
-static void AdicionarIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso){
+static void _adicionarIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso){
     assert(Sistema_EdCare != NULL && idoso != NULL);
 
     AdicionarItem(Sistema_EdCare->idosos, idoso);
 }
 
-static void RemoverIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso){
+static void _removerIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso){
     assert(Sistema_EdCare != NULL && idoso != NULL);
 
     RemoverItemChave(Sistema_EdCare->idosos, &CompararNomeIdoso, RecuperaNomeIdoso(idoso));
     DeletarIdoso(idoso);
 }
 
-static Idoso BuscarIdosoEdCare(EdCare Sistema_EdCare, char *nome){
+static Idoso _buscarIdosoEdCare(EdCare Sistema_EdCare, char *nome){
     assert(Sistema_EdCare != NULL && nome != NULL);
 
     return BuscarItemChave(Sistema_EdCare->idosos, &CompararNomeIdoso, nome);
 }
 
-static void AtualizarIdososEdCare(EdCare Sistema_EdCare){
+static void _atualizarIdososEdCare(EdCare Sistema_EdCare){
     assert(Sistema_EdCare != NULL);
 
     void *idoso = NULL;
@@ -235,19 +235,19 @@ static void AtualizarIdososEdCare(EdCare Sistema_EdCare){
     }
 }
 
-static void AdicionarCuidadorEdCare(EdCare Sistema_EdCare, Cuidador cuidador){
+static void _adicionarCuidadorEdCare(EdCare Sistema_EdCare, Cuidador cuidador){
     assert(Sistema_EdCare != NULL && cuidador != NULL);
 
     AdicionarItem(Sistema_EdCare->cuidadores, cuidador);
 }
 
-static Cuidador BuscarCuidadorEdCare(EdCare Sistema_EdCare, char *nome){
+static Cuidador _buscarCuidadorEdCare(EdCare Sistema_EdCare, char *nome){
     assert(Sistema_EdCare != NULL && nome != NULL);
 
     return BuscarItemChave(Sistema_EdCare->cuidadores, &CompararNomeCuidador, nome);
 }
 
-static void AtualizarCuidadoresEdCare(EdCare Sistema_EdCare){
+static void _atualizarCuidadoresEdCare(EdCare Sistema_EdCare){
     assert(Sistema_EdCare != NULL);
 
     void *cuidador = NULL;
@@ -256,16 +256,15 @@ static void AtualizarCuidadoresEdCare(EdCare Sistema_EdCare){
     }
 }
 
-static char *ProcessarInformacoesIdosoEdCare(Idoso idoso){
+static char *_processarInformacoesIdosoEdCare(Idoso idoso){
     assert(idoso != NULL);
-
-    char buffer[1000];
 
     //falecimento
     if(!EhIdosoVivo(idoso)){
         return strdup("falecimento");
     }
 
+    char buffer[1000];
     Registro registroIdoso = RecuperaRegistroIdoso(idoso);
 
     //queda

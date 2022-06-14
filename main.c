@@ -1,8 +1,11 @@
-#define NDEBUG
+//#define NDEBUG
 #include <stdlib.h>
+#include <assert.h>
 #include "EdCare.h"
 
 int main(int argc, char const *argv[]){
+    assert(argc > 1);
+
     EdCare Sistema_EdCare = CriarEdCare();
 
     CriaVinculosdeApoioEdCare(Sistema_EdCare);

@@ -7,7 +7,7 @@ typedef struct celula Celula;
 /**
  * Função para buscar celula por chave de comparação.
  * inputs: lista, função de CompararChave e a chave. 
- * outputs: ponteiro para celula
+ * output: ponteiro para celula
  * pré-condição: lista é valida, função existe, chave é valida 
  */
 static Celula* _buscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave);
@@ -62,16 +62,15 @@ void *BuscarItemChave(Lista lista, int (*CompararChave)(void *, void *), void *c
 }
 
 void *BuscarItemIndex(Lista lista, int index){
-    Celula * p;
-    p = lista->prim;
-    
-    for (int i = 0; i < index && p; i++)
+    assert(lista != NULL);
+
+    Celula *p = lista->prim; 
+    for(int i = 0; i < index && p != NULL; i++)
     {
         p = p->prox;
     }
 
     if(!p) return NULL;
-
     return p->conteudo;
 }
 
@@ -115,50 +114,6 @@ void *RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *
     return conteudo;
 }
 
-void *RemoverItemIndex(Lista lista, int index){
-    assert(lista != NULL);
-
-    Celula* p = lista->prim;    
-    for (int i = 0; i < index && p ; i++)
-    {
-        p = p->prox;
-    }
-    
-    //p == NULL vale se não tiver na lista ou for lista vazia    
-    if(!p){
-        return NULL;
-    }
-
-    void *conteudo = p->conteudo;
-
-    //Unico
-    if(lista->prim == p && p->prox == NULL){
-        lista->prim = NULL;
-        lista->ult = NULL;
-        free(p);
-    }
-    //Primeiro
-    else if(index == 0){
-        lista->prim = p->prox;
-        p->prox->ant = NULL;
-        free(p);
-    }
-    //Ultimo
-    else if(lista->ult == p){
-        p->ant->prox = NULL;
-        lista->ult = p->ant;
-        free(p);
-    }
-    else{
-        p->ant->prox = p->prox;
-        p->prox->ant = p->ant;
-        free(p);
-        
-    }
-
-    return conteudo;
-}
-
 void DeletarLista(Lista lista, void (*Free)(void *item)){
     assert(lista != NULL);
 
@@ -194,9 +149,9 @@ void ForEach(Lista lista, void **item){
 }
 
 static Celula* _buscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave){
-    assert(lista != NULL);
-    Celula *aux = lista->prim;
+    assert(lista != NULL && CompararChave != NULL && chave != NULL);
 
+    Celula *aux = lista->prim;
     while(aux != NULL && CompararChave(aux->conteudo, chave) != 1){
         aux = aux->prox;
     }
