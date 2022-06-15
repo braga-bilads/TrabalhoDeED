@@ -1,4 +1,4 @@
-#include "FebreEnum.h"
+#include "../include/FebreEnum.h"
 
 FebreEnum RetornarFebre(double temperatura){
     if(temperatura <= 37){

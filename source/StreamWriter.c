@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "StreamWriter.h"
+#include "../include/StreamWriter.h"
 
 struct streamWriter{
     FILE *arquivo;

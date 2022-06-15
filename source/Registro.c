@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "Registro.h"
+#include "../include/Registro.h"
 
 struct registro{
     FebreEnum febre;

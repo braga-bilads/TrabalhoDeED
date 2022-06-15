@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <assert.h>
-#include "Localizador.h"
+#include "../include/Localizador.h"
 
 struct localizador{
     int latitude;

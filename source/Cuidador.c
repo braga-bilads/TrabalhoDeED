@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "Cuidador.h"
+#include "../include/Cuidador.h"
 
 struct cuidador{
     char *nome;

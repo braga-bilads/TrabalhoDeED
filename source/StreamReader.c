@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
-#include "StreamReader.h"
+#include "../include/StreamReader.h"
 
 struct streamReader{
     FILE *arquivo;

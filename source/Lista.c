@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <assert.h>
-#include "Lista.h"
+#include "../include/Lista.h"
 
 typedef struct celula Celula;
 

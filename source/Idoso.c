@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "Lista.h"
-#include "Localizador.h"
-#include "Idoso.h"
+#include "../include/Lista.h"
+#include "../include/Localizador.h"
+#include "../include/Idoso.h"
 
 struct idoso
 {

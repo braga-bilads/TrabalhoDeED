@@ -2,15 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include "Cuidador.h"
-#include "FebreEnum.h"
-#include "Registro.h"
-#include "Idoso.h"
-#include "Lista.h"
-#include "Localizador.h"
-#include "StreamReader.h"
-#include "StreamWriter.h"
-#include "EdCare.h"
+#include "../include/Cuidador.h"
+#include "../include/FebreEnum.h"
+#include "../include/Registro.h"
+#include "../include/Idoso.h"
+#include "../include/Lista.h"
+#include "../include/Localizador.h"
+#include "../include/StreamReader.h"
+#include "../include/StreamWriter.h"
+#include "../include/EdCare.h"
 
 /* 
  * Adiciona um idoso a lista de idosos do sistema edcare
