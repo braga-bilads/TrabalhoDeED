@@ -9,9 +9,10 @@ typedef enum Febre{
 
 /* 
  * Retorna a febre de acodo com a temperatura
- * inputs: a temperatura
- * output: a febre
+ * inputs: temperatura
+ * output: febre
  * pre-condicao: nenhuma
+ * pos-condicao: febre referente a temperatura
  */
 FebreEnum RetornarFebre(double temperatura);
 

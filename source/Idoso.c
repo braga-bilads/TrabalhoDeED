@@ -6,8 +6,7 @@
 #include "../include/Localizador.h"
 #include "../include/Idoso.h"
 
-struct idoso
-{
+struct idoso{
     char* nome;
     Lista amigos;
     Lista cuidadores;

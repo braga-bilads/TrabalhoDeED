@@ -2,15 +2,22 @@
 #include <assert.h>
 #include "../include/Lista.h"
 
+//  Tipo que define celula
 typedef struct celula Celula;
 
-/**
- * Função para buscar celula por chave de comparação.
- * inputs: lista, função de CompararChave e a chave. 
- * output: ponteiro para celula
- * pré-condição: lista é valida, função existe, chave é valida 
+/*------------------------ funcoes privadas -----------------------*/
+
+/*
+ * Busca uma celula na lista de acordo com a chave de seu item
+ * inputs: lista, funcao que compara a chave de acordo com o item, e chave a ser comparada
+ * output: celula
+ * pré-condição: lista, funcao e chave existem
+ * pos-condicao: celula referente a chave passada como parametro, ou celula == NULL,
+ *               caso nao esteja na lista
  */
-static Celula* _buscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave);
+static Celula* _buscarCelulaChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
+
+/*-----------------------------------------------------------------*/
 
 struct celula{
     void* conteudo; 
@@ -33,7 +40,7 @@ Lista CriarLista(){
     return nova;
 }
 
-Lista AdicionarItem(Lista lista, void *item){
+void AdicionarItem(Lista lista, void *item){
     assert(lista != NULL && item != NULL);
 
     Celula* nova = (Celula*)malloc(sizeof(Celula));
@@ -48,15 +55,13 @@ Lista AdicionarItem(Lista lista, void *item){
     
     lista->ult = nova;
     nova->prox = NULL;
-    nova->conteudo = item;  
-
-    return lista;
+    nova->conteudo = item;
 }
 
 void *BuscarItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
     assert(lista != NULL && CompararChave != NULL && chave != NULL);
 
-    Celula *aux = _buscarCelula(lista, CompararChave, chave);
+    Celula *aux = _buscarCelulaChave(lista, CompararChave, chave);
     if(aux != NULL) return aux->conteudo;
     return NULL;
 }
@@ -77,7 +82,7 @@ void *BuscarItemIndex(Lista lista, int index){
 void *RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
     assert(lista != NULL && CompararChave != NULL && chave != NULL);
 
-    Celula *aux = _buscarCelula(lista, CompararChave, chave);
+    Celula *aux = _buscarCelulaChave(lista, CompararChave, chave);
 
     //lista vazia
     if(aux == NULL) return NULL;
@@ -148,7 +153,7 @@ void ForEach(Lista lista, void **item){
     }
 }
 
-static Celula* _buscarCelula(Lista lista, int (*CompararChave)(void *, void *), void *chave){
+static Celula* _buscarCelulaChave(Lista lista, int (*CompararChave)(void *, void *), void *chave){
     assert(lista != NULL && CompararChave != NULL && chave != NULL);
 
     Celula *aux = lista->prim;

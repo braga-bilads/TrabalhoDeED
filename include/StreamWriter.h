@@ -1,29 +1,34 @@
 #ifndef SW_H
 #define SW_H
 
+//  Tipo que define streamWriter (tipo opaco)
 typedef struct streamWriter* StreamWriter;
 
 /* 
  * Aloca memoria para o streamWriter e o inicializa
- * inputs: o caminho do diretorio a ser aberto para escrita
- * output: o streamWriter criado
- * pre-condicao: o caminho do diretorio ser valido
+ * inputs: caminho do diretorio a ser aberto para escrita
+ * output: streamWriter criado
+ * pre-condicao: o caminho do diretorio existe e nao necessita
+ *               ter sido alocado dinamicamente
+ * pos-condicao: streamWriter alocado e inicializado
  */
 StreamWriter CriarStreamWriter(char *path);
 
 /* 
  * Libera memoria alocada para o streamWriter
- * inputs: o streamWriter
+ * inputs: streamWriter
  * output: nenhum
- * pre-condicao: o streamWriter existe
+ * pre-condicao: streamWriter existe
+ * pos-condicao: toda a memoria alocada para streamWriter foi liberada
  */
 void DeletarStreamWriter(StreamWriter sw);
 
 /* 
  * Escreve uma linha no arquivo referente ao streamWriter
- * inputs: o streamWriter e a string a ser escrita
+ * inputs: streamWriter e string a ser escrita
  * output: nenhum
- * pre-condicao: o streamWriter e a string existem
+ * pre-condicao: streamWriter e string existem
+ * pos-condicao: a string foi escrita no arquivo referente ao streamWriter
  */
 void WriteLine(StreamWriter sw, char *string);
 

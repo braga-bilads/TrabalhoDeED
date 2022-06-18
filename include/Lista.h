@@ -1,63 +1,76 @@
 #ifndef LISTA_H
 #define LISTA_H
 
+//  Tipo que define lista (tipo opaco)
 typedef struct lista* Lista;
 
 /* 
- * Aloca memoria para a lista e a inicializa
+ * Aloca memoria para a lista
  * inputs: nenhum
- * output: a lista criada
+ * output: lista criada
  * pre-condicao: nenhuma
+ * pos-condicao: lista alocada e vazia
  */
 Lista CriarLista();
 
 /* 
  * Adiciona um item a lista
- * inputs: a lista e o item a ser adicionado
- * output: a lista
- * pre-condicao: a lista e o item existem
+ * inputs: lista e item a ser adicionado
+ * output: nenhum
+ * pre-condicao: lista e item existem
+ * pos-condicao: item adicionado na ultima posicao da lista
  */
-Lista AdicionarItem(Lista lista, void *item);
+void AdicionarItem(Lista lista, void *item);
 
 /* 
  * Busca um item na lista de acordo com sua chave
- * inputs: a lista, uma funcao que compara a chave de acordo com o item, e a chave a ser comparada
- * output: o item
- * pre-condicao: a lista, a funcao e a chave existem
+ * inputs: lista, funcao que compara a chave de acordo com o item, e chave a ser comparada
+ * output: item
+ * pre-condicao: lista, funcao e chave existem
+ * pos-condicao: item referente a chave passada como parametro, ou item == NULL,
+ *               caso nao esteja na lista
  */
 void *BuscarItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 /* 
  * Busca um item na lista de acordo com seu index
- * inputs: a lista e o index
- * output: o item
- * pre-condicao: a lista existe
+ * inputs: lista e index
+ * output: item
+ * pre-condicao: lista existe
+ * pos-condicao: item referente ao index passado como parametro, ou item == NULL,
+ *               caso nao esteja na lista
  */
 void *BuscarItemIndex(Lista lista, int index);
 
 /* 
- * Remove um item da lista de acordo com sua chave
- * inputs: a lista, uma funcao que compara a chave de acordo com o item, e a chave a ser comparada
- * output: o item
- * pre-condicao: a lista, a funcao e a chave existem
+ * Remove um item na lista de acordo com sua chave
+ * inputs: lista, funcao que compara a chave de acordo com o item, e chave a ser comparada
+ * output: item
+ * pre-condicao: lista, funcao e chave existem
+ * pos-condicao: item referente a chave passada como parametro removido da lista, 
+ *               ou item == NULL, caso nao esteja na lista
  */
 void *RemoverItemChave(Lista lista, int (*CompararChave)(void *, void *), void *chave);
 
 /* 
  * Libera memoria alocada para a lista
- * inputs: a lista e uma funcao que libera a memoria alocada para item
+ * inputs: lista e funcao que libera a memoria alocada para item
  * output: nenhum
- * pre-condicao: a lista existe, se Free == NULL a funcao nao libera memoria para item
+ * pre-condicao: lista existe, se Free == NULL a funcao nao libera memoria para item
+ * pos-condicao: toda a memoria alocada para lista foi liberada, se Free == NULL,
+ *               memoria alocada para item nao foi liberada
  */
 void DeletarLista(Lista lista, void (*Free)(void *item));
 
 /* 
- * Percorre a lista
- * inputs: a lista e um ponteiro para ponteiro para item
+ * Percorre o conteudo de uma lista
+ * inputs: lista e ponteiro para ponteiro para item
  * output: nenhum
- * pre-condicao: se lista != de NULL, item e o primeiro da lista,
- *               se lista == NULL, item e o proximo da lista, de acordo
+ * pre-condicao: se lista != de NULL, item eh o primeiro da lista,
+ *               se lista == NULL, item eh o proximo da lista, de acordo
  *               com a primeira lista passada como parametro
+ * pos-condicao: se lista != de NULL, item eh o primeiro da lista,
+ *               se lista == NULL, item eh o proximo da lista
  */
 void ForEach(Lista lista, void **item);
 

@@ -12,72 +12,88 @@
 #include "../include/StreamWriter.h"
 #include "../include/EdCare.h"
 
+/*------------------------ funcoes privadas -----------------------*/
+
 /* 
- * Adiciona um idoso a lista de idosos do sistema edcare
- * inputs: o sistema edcare e o idoso
+ * Adiciona um idoso a lista de idosos do sistema
+ * inputs: edcare e idoso
  * output: nenhum
- * pre-condicao: o sistema edcare e o idoso existem
+ * pre-condicao: edcare e idoso existem
+ * pos-condicao: idoso adicionado a lista de idosos
  */
 static void _adicionarIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
 
 /* 
- * Remove um idoso da lista de idosos do sistema edcare
- * inputs: o sistema edcare e o idoso
+ * Remove um idoso da lista de idosos do sistema
+ * inputs: edcare e idoso
  * output: nenhum
- * pre-condicao: o sistema edcare e o idoso existem
+ * pre-condicao: edcare e idoso existem
+ * pos-condicao: idoso removido da lista de idosos, e memoria 
+ *               alocada para idoso liberada
  */
 static void _removerIdosoEdCare(EdCare Sistema_EdCare, Idoso idoso);
 
 /* 
- * Busca um idoso na lista de idosos do sistema edcare
- * inputs: o sistema edcare e o nome do idoso
- * output: o idoso
- * pre-condicao: o sistema edcare e o nome do idoso existem
+ * Busca um idoso na lista de idosos do sistema
+ * inputs: edcare e nome do idoso
+ * output: idoso
+ * pre-condicao: edcare e nome do idoso existem, nome nao necessita 
+ *               ter sido alocado dinamicamente
+ * pos-condicao: idoso referente ao nome passado como parametro, ou
+ *               idoso == NULL, caso nao esteja na lista
  */
 static Idoso _buscarIdosoEdCare(EdCare Sistema_EdCare, char *nome);
 
 /* 
- * Atualiza os dados de todos idosos registrados no sistema edcare
- * inputs: o sistema edcare
+ * Atualiza os dados de todos idosos registrados no sistema
+ * inputs: edcare
  * output: nenhum
- * pre-condicao: o sistema edcare existe
+ * pre-condicao: edcare existe
+ * pos-condicao: dados dos idosos atualizados de acordo com seus sensores
  */
 static void _atualizarIdososEdCare(EdCare Sistema_EdCare);
 
 /* 
- * Adiciona um cudador a lista de cuidadores do sistema edcare
- * inputs: o sistema edcare e o cudador
+ * Adiciona um cudador a lista de cuidadores do sistema
+ * inputs: edcare e cuidador
  * output: nenhum
- * pre-condicao: o sistema edcare e o cudador existem
+ * pre-condicao: edcare e cudador existem
+ * pos-condicao: cuidador adicionado a lista de cuidadores
  */
 static void _adicionarCuidadorEdCare(EdCare Sistema_EdCare, Cuidador cuidador);
 
 /* 
- * Busca um cuidador na lista de cuidadores do sistema edcare
- * inputs: o sistema edcare e o nome do cuidador
- * output: o cuidador
- * pre-condicao: o sistema edcare e o nome do cuidador existem
+ * Busca um cuidador na lista de cuidadores do sistema
+ * inputs: edcare e nome do cuidador
+ * output: cuidador
+ * pre-condicao: o sistema edcare e o nome do cuidador existem,
+ *               nome nao necessita ter sido alocado dinamicamente
+ * pos-condicao: cuidador referente ao nome passado como parametro, ou
+ *               cuidador == NULL, caso nao esteja na lista
  */
 static Cuidador _buscarCuidadorEdCare(EdCare Sistema_EdCare, char *nome);
 
 /* 
- * Atualiza os dados de todos cuidadores registrados no sistema edcare
- * inputs: o sistema edcare
+ * Atualiza os dados de todos cuidadores registrados no sistema
+ * inputs: edcare
  * output: nenhum
- * pre-condicao: o sistema edcare existe
+ * pre-condicao: edcare existe
+ * pos-condicao: dados dos cuidadores atualizados de acordo com seus sensores
  */
 static void _atualizarCuidadoresEdCare(EdCare Sistema_EdCare);
 
 /* 
  * Processa as informacoes do idoso e gera um feedback
- * inputs: o idoso
- * output: o feedback gerado
- * pre-condicao: o idoso existe
+ * inputs: idoso
+ * output: feedback gerado em forma de string
+ * pre-condicao: idoso existe
+ * pos-condicao: informacoes processadas e feedback gerado
  */
 static char *_processarInformacoesIdosoEdCare(Idoso idoso);
 
-struct edcare
-{
+/*-----------------------------------------------------------------*/
+
+struct edcare{
     Lista idosos;
     Lista cuidadores;
 };
@@ -116,7 +132,6 @@ void CriaVinculosdeApoioEdCare(EdCare Sistema_EdCare){
 
     Idoso idoso = NULL;
     char* nomeIdoso = NULL;
-
     Idoso amigo = NULL;
     char* nomeAmigo = NULL;
     
@@ -155,7 +170,6 @@ void CriaVinculosdeCuidadoresEdCare(EdCare Sistema_EdCare){
 
     Idoso idoso = NULL;
     char* nomeIdoso = NULL;
-
     Cuidador cuidador = NULL;
     char* nomeCuidador = NULL;
 
