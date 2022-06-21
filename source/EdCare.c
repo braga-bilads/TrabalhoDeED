@@ -280,7 +280,8 @@ static char *_processarInformacoesIdosoEdCare(Idoso idoso){
 
     char buffer[1000];
     Registro registroIdoso = RecuperaRegistroIdoso(idoso);
-
+    int contadorFebreBaixa = RecuperaContadorFebreBaixa(registroIdoso);
+    
     //queda
     int queda = RecuperaQuedaRegistro(registroIdoso);
     if(queda == 1){
@@ -288,7 +289,6 @@ static char *_processarInformacoesIdosoEdCare(Idoso idoso){
         sprintf(buffer, "queda, acionou %s", RecuperaNomeCuidador(cuidador));
 
         //verificando o contador de febre baixa
-        int contadorFebreBaixa = RecuperaContadorFebreBaixa(registroIdoso);
         if(contadorFebreBaixa == 4){
             ResetarContadorFebreBaixa(registroIdoso);
         }
@@ -314,7 +314,7 @@ static char *_processarInformacoesIdosoEdCare(Idoso idoso){
 
     //febre baixa
     if(febre == FebreBaixa){
-        int contadorFebreBaixa = RecuperaContadorFebreBaixa(registroIdoso);
+        
         if(contadorFebreBaixa == 4){
             ResetarContadorFebreBaixa(registroIdoso);
 
