@@ -3,5 +3,7 @@ all: main
 main:
 	gcc -o main source/*.c -lm
 
-clean:
-	rm main
+clean: all
+	rm -f main
+	rm -f entrada/*.*
+	rm -f saida/*.*

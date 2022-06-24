@@ -28,10 +28,10 @@ Idoso CriarIdoso(char *nome){
     idoso->registro = CriarRegistro();
 
     char path[100];
-    sprintf(path, "%s.txt", nome);
+    sprintf(path, "entrada/%s.txt", nome);
     idoso->sr = CriarStreamReader(path);
 
-    sprintf(path, "%s-saida.txt", nome);
+    sprintf(path, "saida/%s-saida.txt", nome);
     idoso->sw = CriarStreamWriter(path);
 
     idoso->vivo = 1;

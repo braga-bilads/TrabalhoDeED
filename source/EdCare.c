@@ -119,7 +119,7 @@ void DeletarEdCare(EdCare Sistema_EdCare){
 void CriaVinculosdeApoioEdCare(EdCare Sistema_EdCare){
     assert(Sistema_EdCare != NULL);
 
-    StreamReader sr = CriarStreamReader("apoio.txt");
+    StreamReader sr = CriarStreamReader("entrada/apoio.txt");
     char* linha = ReadLine(sr);
 
     //colocando Idosos no sistema 
@@ -157,7 +157,7 @@ void CriaVinculosdeApoioEdCare(EdCare Sistema_EdCare){
 void CriaVinculosdeCuidadoresEdCare(EdCare Sistema_EdCare){
     assert(Sistema_EdCare != NULL);
 
-    StreamReader sr = CriarStreamReader("cuidadores.txt");
+    StreamReader sr = CriarStreamReader("entrada/cuidadores.txt");
     char* linha = ReadLine(sr);
 
     //colocando cuidadores no sistema

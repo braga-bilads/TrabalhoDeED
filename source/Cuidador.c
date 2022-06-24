@@ -20,7 +20,7 @@ Cuidador CriarCuidador(char *nome){
     cuidador->localizador = CriarLocalizador(0, 0);
 
     char path[100];
-    sprintf(path, "%s.txt", nome);
+    sprintf(path, "entrada/%s.txt", nome);
     cuidador->sr = CriarStreamReader(path);
 
     return cuidador;
